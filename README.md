@@ -1,6 +1,6 @@
-# my_first_flutter_app
+# Construction Management App
 
-A new Flutter project.
+A new Flutter project for the Consturction Management Department
 
 ## Getting Started
 
