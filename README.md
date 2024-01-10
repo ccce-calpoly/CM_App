@@ -1,6 +1,6 @@
-# Construction Management App
+# ccce_application
 
-A new Flutter project for the Consturction Management Department
+A new Flutter project.
 
 ## Getting Started
 

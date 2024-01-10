@@ -1,6 +1,6 @@
 {
-    "name": "my_first_flutter_app",
-    "short_name": "my_first_flutter_app",
+    "name": "ccce_application",
+    "short_name": "ccce_application",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
