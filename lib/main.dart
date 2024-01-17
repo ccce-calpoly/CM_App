@@ -38,27 +38,33 @@ class _MyHomePageState extends State<MyHomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const Text(
-      'Index 0: Home',
+      //Index 0
+      'Home',
       style: optionStyle,
     ),
     const Text(
-      'Index 1: Events',
+      //Index 1
+      'Events',
       style: optionStyle,
     ),
     const Text(
-      'Index 2: Club Info',
+      //Index 2
+      'Club Info',
       style: optionStyle,
     ),
     const Text(
-      'Index 3: Academics',
+      //Index 3
+      'Academics',
       style: optionStyle,
     ),
     const Text(
-      'Index 4: Resources',
+      //Index 4
+      'Resources',
       style: optionStyle,
     ),
     const Text(
-      'Index 5: Profile/Settings',
+      //Index 5
+      'Profile/Settings',
       style: optionStyle,
     )
   ];
@@ -73,11 +79,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Builder(
+            builder: (context) => IconButton(
+                icon: const Icon(Icons.dehaze),
+                onPressed: () => Scaffold.of(context).openDrawer())),
         backgroundColor: calPolyGreen,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           widget.title,
           style: const TextStyle(color: Colors.white),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: const Icon(Icons.account_circle_rounded),
+              tooltip: 'Open Profile',
+              onPressed: () {
+                _onItemTapped(5);
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const ProfileScreen()));
+              })
+        ],
       ),
       body: Center(
         child: _widgetOptions[_selectedIndex],
@@ -139,17 +163,87 @@ class _MyHomePageState extends State<MyHomePage> {
                   _onItemTapped(4);
                   Navigator.pop(context);
                 }),
-            ListTile(
-                title: const Text('Profile/Settings',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 5,
-                onTap: () {
-                  _onItemTapped(5);
-                  Navigator.pop(context);
-                }),
           ],
         ),
       ),
     );
   }
 }
+// class CMApp extends StatelessWidget {
+//   const CMApp({super.key});
+//   final String title = 'CM';
+//   static const calPolyGreen = Color(0xFF003831);
+//   static const appBackgroundColor = Color(0xFFE4E3D3);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       drawer: Drawer(
+//           child: ListView(children: <Widget>[
+//         ListTile(
+//           title: const Text('Home'),
+//           onTap: () {
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const HomeScreen()));
+//           },
+//         ),
+//         ListTile(
+//           title: const Text('Events'),
+//           onTap: () {
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const HomeScreen()));
+//           },
+//         ),
+//         ListTile(
+//           title: const Text('Club Info'),
+//           onTap: () {
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const HomeScreen()));
+//           },
+//         ),
+//         ListTile(
+//           title: const Text('Academics'),
+//           onTap: () {
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const HomeScreen()));
+//           },
+//         ),
+//         ListTile(
+//           title: const Text('Resources'),
+//           onTap: () {
+//             Navigator.pushReplacement(context,
+//                 MaterialPageRoute(builder: (context) => const HomeScreen()));
+//           },
+//         )
+//       ])),
+//       appBar: AppBar(
+//         leading: Builder(
+//           builder: (context) => IconButton(
+//               onPressed: () => Scaffold.of(context).openDrawer(),
+//               icon: const Icon(Icons.dehaze)),
+//         ),
+//         backgroundColor: calPolyGreen,
+//         centerTitle: true,
+//         iconTheme: const IconThemeData(color: Colors.white),
+//         title: Text(
+//           title,
+//           style: const TextStyle(
+//             color: Colors.white,
+//           ),
+//         ),
+//         actions: <Widget>[
+//           IconButton(
+//             icon: const Icon(Icons.account_circle_rounded),
+//             tooltip: 'Open Profile',
+//             onPressed: () {
+//               Navigator.pushReplacement(
+//                   context,
+//                   MaterialPageRoute(
+//                       builder: (context) => const ProfileScreen()));
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
