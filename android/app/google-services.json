@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913522987647",
+    "project_id": "cm-app-90d65",
+    "storage_bucket": "cm-app-90d65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913522987647:android:4edbb77540bec80499a54a",
+        "android_client_info": {
+          "package_name": "com.example.ccce_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZMeFauTWi2QMyo24Y4IRlA_lxFXYIfpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
