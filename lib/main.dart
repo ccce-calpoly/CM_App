@@ -3,6 +3,7 @@ import 'auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ccce_application/src/screens/profile_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,11 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'Resources',
       style: optionStyle,
     ),
-    const Text(
-      //Index 5
-      'Profile/Settings',
-      style: optionStyle,
-    )
+    const ProfileScreen()
   ];
 
   void _onItemTapped(int index) {
