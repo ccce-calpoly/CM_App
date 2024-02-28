@@ -6,6 +6,7 @@ import 'main.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
+  static const calPolyGreen = Color(0xFF003831);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,10 @@ class AuthGate extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: action == AuthAction.signIn
-                    ? const Text('Welcome to FlutterFire, please sign in!')
-                    : const Text('Welcome to Flutterfire, please sign up!'),
+                    ? const Text(
+                        'Welcome to the Construction Management App, please sign in!')
+                    : const Text(
+                        'Welcome to Construction Management App, please sign up!'),
               );
             },
           );

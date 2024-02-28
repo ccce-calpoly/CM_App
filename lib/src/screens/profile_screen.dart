@@ -11,23 +11,54 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () async {
-                // Perform sign-out here
-
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => AuthGate()),
-                );
-              },
-            ),
-          ],
+      backgroundColor: appBackgroundColor,
+      body: Form(
+        // key: _formKey,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                ),
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                ),
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'School Year',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Company',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: calPolyGreen),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => AuthGate()),
+                    );
+                  },
+                  child: Text('Sign Out'),
+                ),
+              ),
+            ],
+          ),
         ),
-        body: Center(child: Icon(Icons.account_circle_rounded)));
+      ),
+    );
   }
 }
