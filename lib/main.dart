@@ -3,7 +3,9 @@ import 'auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:isar/isar.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
+import 'package:ccce_application/src/screens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,38 +44,41 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      //Index 0
-      'Home',
-      style: optionStyle,
-    ),
-    const Text(
-      //Index 1
-      'Events',
-      style: optionStyle,
-    ),
-    const Text(
-      //Index 2
-      'Club Info',
-      style: optionStyle,
-    ),
-    const Text(
-      //Index 3
-      'Academics',
-      style: optionStyle,
-    ),
-    const Text(
-      //Index 4
-      'Resources',
-      style: optionStyle,
-    ),
-    const ProfileScreen()
+    const HomeScreen(),
+    Container(),
+    Container(),
+    Container(),
+    Container(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        break;
+      case 1:
+        Null;
+        break;
+      case 2:
+        Null;
+        break;
+      case 3:
+        Null;
+        break;
+      case 4:
+        Null;
+        break;
+      case 5:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()));
+        break;
+    }
     setState(() {
       _selectedIndex = index;
     });
+    Navigator.pop(context);
   }
 
   @override
@@ -104,9 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               })
         ],
       ),
-      body: Center(
-        child: _widgetOptions[_selectedIndex],
-      ),
+      body: _widgetOptions[_selectedIndex],
       backgroundColor: appBackgroundColor, //Still determining background color
       drawer: Drawer(
         backgroundColor: calPolyGreen,
