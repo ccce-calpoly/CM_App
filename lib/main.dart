@@ -3,7 +3,7 @@ import 'auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
 import 'package:ccce_application/src/screens/home_screen.dart';
 
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Container(),
     Container(),
     Container(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -71,8 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Null;
         break;
       case 5:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ProfileScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ProfileScreen()));
         break;
     }
     setState(() {
