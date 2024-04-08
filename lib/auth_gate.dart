@@ -1,8 +1,10 @@
+import 'package:ccce_application/src/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:ccce_application/src/screens/home_page.dart';
 
-import 'main.dart';
+// import 'main.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -40,9 +42,7 @@ class AuthGate extends StatelessWidget {
           );
         }
 
-        return const MyHomePage(
-          title: "Home Page",
-        );
+        return const HomeScreen();
       },
     );
   }

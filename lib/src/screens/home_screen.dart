@@ -68,8 +68,10 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.account_circle_rounded),
             tooltip: 'Open Profile',
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
             },
           ),
         ],
