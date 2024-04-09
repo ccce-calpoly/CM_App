@@ -56,7 +56,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Top background
           Positioned.fill(
             top: 0,
-            child: Container(color: Color.fromARGB(255, 86, 86, 1)),
+            child: Container(color: const Color.fromARGB(255, 86, 86, 1)),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(
+                Icons.menu,
+                size: 50,
+              ), // Hamburger icon
+              onPressed: () {
+                // Add your menu functionality here
+              },
+            ),
           ),
           // White background with rounded corners for text fields
           Positioned(
@@ -65,14 +78,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             right: 0,
             bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -309,11 +322,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Container(
                       width: 40,
                       height: 40,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.edit,
                         size: 24,
                         color: Colors.white,
