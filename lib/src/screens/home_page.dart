@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key}) : super(key: key);
 
-  final String title;
+  final String title = "MyHomePage";
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -30,12 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const MyHomePage(
-                      title: "CM Home",
-                    )));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MyHomePage()));
         break;
       case 1:
         Null;
@@ -47,17 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
         Null;
         break;
       case 4:
-        Null;
-        break;
-      case 5:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+        /*Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()));*/
+        _selectedIndex = 4;
         break;
     }
     setState(() {
       _selectedIndex = index;
     });
-    Navigator.pop(context);
+    //Navigator.pop(context);
   }
 
   @override
@@ -80,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.account_circle_rounded),
               tooltip: 'Open Profile',
               onPressed: () {
-                _onItemTapped(5);
+                _onItemTapped(4);
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(

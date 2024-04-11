@@ -9,46 +9,46 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-          child: ListView(children: <Widget>[
-        ListTile(
-          title: const Text('Home'),
-          onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          },
-        ),
-        ListTile(
-          title: const Text('Events'),
-          onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          },
-        ),
-        ListTile(
-          title: const Text('Club Info'),
-          onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          },
-        ),
-        ListTile(
-          title: const Text('Academics'),
-          onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          },
-        ),
-        ListTile(
-          title: const Text('Resources'),
-          onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          },
-        )
-      ])),
-      appBar: AppBar(
+    return Scaffold(body: Container());
+    // drawer: Drawer(
+    //     child: ListView(children: <Widget>[
+    //   ListTile(
+    //     title: const Text('Home'),
+    //     onTap: () {
+    //       Navigator.pushReplacement(context,
+    //           MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //     },
+    //   ),
+    //   ListTile(
+    //     title: const Text('Events'),
+    //     onTap: () {
+    //       Navigator.pushReplacement(context,
+    //           MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //     },
+    //   ),
+    //   ListTile(
+    //     title: const Text('Club Info'),
+    //     onTap: () {
+    //       Navigator.pushReplacement(context,
+    //           MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //     },
+    //   ),
+    //   ListTile(
+    //     title: const Text('Academics'),
+    //     onTap: () {
+    //       Navigator.pushReplacement(context,
+    //           MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //     },
+    //   ),
+    //   ListTile(
+    //     title: const Text('Resources'),
+    //     onTap: () {
+    //       Navigator.pushReplacement(context,
+    //           MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //     },
+    //   )
+    // ])),
+    /*appBar: AppBar(
         leading: Builder(
           builder: (context) => IconButton(
               onPressed: () => Scaffold.of(context).openDrawer(),
@@ -75,7 +75,6 @@ class HomeScreen extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
+      ),*/
   }
 }
