@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/auth_gate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccce_application/src/screens/home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,7 +12,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final String title = 'CM Home';
   static const calPolyGreen = Color(0xFF003831);
+  static const appBackgroundColor = Color(0xFFE4E3D3);
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _schoolYearController = TextEditingController();
@@ -51,6 +54,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(children: <Widget>[
+        ListTile(
+          title: const Text('Home'),
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          },
+        ),
+        ListTile(
+          title: const Text('Events'),
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          },
+        ),
+        ListTile(
+          title: const Text('Club Info'),
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          },
+        ),
+        ListTile(
+          title: const Text('Academics'),
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          },
+        ),
+        ListTile(
+          title: const Text('Resources'),
+          onTap: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          },
+        )
+      ])),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: const Icon(Icons.dehaze)),
+        ),
+        backgroundColor: calPolyGreen,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.account_circle_rounded),
+            tooltip: 'Open Profile',
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           // Top background
@@ -58,19 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             top: 0,
             child: Container(color: const Color.fromARGB(255, 86, 86, 1)),
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                size: 50,
-              ), // Hamburger icon
-              onPressed: () {
-                // Add your menu functionality here
-              },
-            ),
-          ),
+
           // White background with rounded corners for text fields
           Positioned(
             top: MediaQuery.of(context).size.height / 6, // Adjust as needed
