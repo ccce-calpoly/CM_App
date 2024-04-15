@@ -13,44 +13,38 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    try {
-      print('hit');
-      return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return SignInScreen(
-              providers: [
-                EmailAuthProvider(),
-              ],
-              headerBuilder: (context, constraints, shrinkOffset) {
-                return Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image.asset('assets/cmLogo.jpg'),
-                  ),
-                );
-              },
-              subtitleBuilder: (context, action) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: action == AuthAction.signIn
-                      ? const Text(
-                          'Welcome to the Construction Management App, please sign in!')
-                      : const Text(
-                          'Welcome to Construction Management App, please sign up!'),
-                );
-              },
-            );
-          }
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return SignInScreen(
+            providers: [
+              EmailAuthProvider(),
+            ],
+            headerBuilder: (context, constraints, shrinkOffset) {
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.asset('assets/cmLogo.jpg'),
+                ),
+              );
+            },
+            subtitleBuilder: (context, action) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: action == AuthAction.signIn
+                    ? const Text(
+                        'Welcome to the Construction Management App, please sign in!')
+                    : const Text(
+                        'Welcome to Construction Management App, please sign up!'),
+              );
+            },
+          );
+        }
 
-          return const MyHomePage();
-        },
-      );
-    } catch (e) {
-      print(e);
-      return Scaffold(body: Text("Hit Error"));
-    }
+        return const MyHomePage();
+      },
+    );
   }
 }

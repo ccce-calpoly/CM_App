@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container());
+    return Scaffold(body: Text('Home Page - Implement Calendar'));
     // drawer: Drawer(
     //     child: ListView(children: <Widget>[
     //   ListTile(
