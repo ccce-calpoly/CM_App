@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/auth_gate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ccce_application/src/screens/home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String title = 'CM Home';
   static const calPolyGreen = Color(0xFF003831);
-  static const appBackgroundColor = Color(0xFFE4E3D3);
+  //static const appBackgroundColor = Color(0xFFE4E3D3);
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _schoolYearController = TextEditingController();

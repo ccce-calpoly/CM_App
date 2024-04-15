@@ -7,8 +7,6 @@ import 'package:ccce_application/src/screens/home_screen.dart';
 class RenderedPage extends StatefulWidget {
   const RenderedPage({Key? key}) : super(key: key);
 
-  final String title = "Title";
-
   @override
   State<RenderedPage> createState() => _MyRenderedPageState();
 }
@@ -89,13 +87,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
           padding: EdgeInsets.zero,
           children: [
             const SizedBox(
-              height: 100,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: calPolyGreen,
-                ),
-                child: Text('Menu'),
-              ),
+              height: 80,
             ),
             ListTile(
                 tileColor: calPolyGreen,
