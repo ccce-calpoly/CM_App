@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
 import 'package:ccce_application/src/screens/home_screen.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class RenderedPage extends StatefulWidget {
+  const RenderedPage({Key? key}) : super(key: key);
 
-  final String title = "MyHomePage";
+  final String title = "Title";
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<RenderedPage> createState() => _MyRenderedPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyRenderedPageState extends State<RenderedPage> {
   static const calPolyGreen = Color(0xFF003831);
   static const appBackgroundColor = Color(0xFFE4E3D3);
   int _selectedIndex = 0;
@@ -37,6 +37,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String getTitleText() {
+      switch (_selectedIndex) {
+        case 0:
+          return "Home";
+        case 1:
+          return "Events";
+        case 2:
+          return "Club Info";
+        case 3:
+          return "Academics";
+        case 4:
+          return "Resources";
+        case 5:
+          return "Profile";
+      }
+      return "Missing Index";
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -47,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          widget.title,
+          getTitleText(),
           style: const TextStyle(color: Colors.white),
         ),
         actions: <Widget>[

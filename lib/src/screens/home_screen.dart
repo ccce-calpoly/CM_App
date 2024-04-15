@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,7 +8,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('Home Page - Implement Calendar'));
+    return const Scaffold(body: Text('Home Page - Implement Calendar'));
     // drawer: Drawer(
     //     child: ListView(children: <Widget>[
     //   ListTile(
