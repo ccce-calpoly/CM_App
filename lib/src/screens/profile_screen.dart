@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/auth_gate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ccce_application/src/screens/home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,7 +12,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final String title = 'CM Home';
   static const calPolyGreen = Color(0xFF003831);
+  static const appBackgroundColor = Color(0xFFE4E3D3);
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _schoolYearController = TextEditingController();
@@ -56,8 +59,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Top background
           Positioned.fill(
             top: 0,
-            child: Container(color: Color.fromARGB(255, 86, 86, 1)),
+            child: Container(color: const Color.fromARGB(255, 86, 86, 1)),
           ),
+
           // White background with rounded corners for text fields
           Positioned(
             top: MediaQuery.of(context).size.height / 6, // Adjust as needed
@@ -65,14 +69,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             right: 0,
             bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -309,11 +313,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Container(
                       width: 40,
                       height: 40,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.edit,
                         size: 24,
                         color: Colors.white,
