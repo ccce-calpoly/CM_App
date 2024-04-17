@@ -55,10 +55,10 @@ class _MyRenderedPageState extends State<RenderedPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-            builder: (context) => IconButton(
-                icon: const Icon(Icons.dehaze),
-                onPressed: () => Scaffold.of(context).openDrawer())),
+        // leading: Builder(
+        //     builder: (context) => IconButton(
+        //         icon: const Icon(Icons.dehaze),
+        //         onPressed: () => Scaffold.of(context).openDrawer())),
         backgroundColor: calPolyGreen,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -66,22 +66,10 @@ class _MyRenderedPageState extends State<RenderedPage> {
           getTitleText(),
           style: const TextStyle(color: Colors.white),
         ),
-        actions: <Widget>[
-          IconButton(
-              icon: const Icon(Icons.account_circle_rounded),
-              tooltip: 'Open Profile',
-              onPressed: () {
-                _onItemTapped(5);
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => const ProfileScreen()));
-              })
-        ],
       ),
       body: _widgetOptions[_selectedIndex],
       backgroundColor: appBackgroundColor, //Still determining background color
-      drawer: Drawer(
+      endDrawer: Drawer(
         backgroundColor: calPolyGreen,
         child: ListView(
           padding: EdgeInsets.zero,
@@ -129,6 +117,14 @@ class _MyRenderedPageState extends State<RenderedPage> {
                 selected: _selectedIndex == 4,
                 onTap: () {
                   _onItemTapped(4);
+                  Navigator.pop(context);
+                }),
+            ListTile(
+                title: const Text('Profile',
+                    style: TextStyle(color: Color(0xFFFFFFFF))),
+                selected: _selectedIndex == 5,
+                onTap: () {
+                  _onItemTapped(5);
                   Navigator.pop(context);
                 }),
           ],
