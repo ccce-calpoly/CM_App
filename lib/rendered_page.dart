@@ -1,5 +1,3 @@
-// NOT BEING USED
-
 import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
 import 'package:ccce_application/src/screens/home_screen.dart';
