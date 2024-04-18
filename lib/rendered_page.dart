@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
+import 'package:ccce_application/src/screens/directory.dart';
+
 import 'package:ccce_application/src/screens/home_screen.dart';
 
 class RenderedPage extends StatefulWidget {
@@ -22,6 +24,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
     Container(),
     Container(),
     const ProfileScreen(),
+    const Directory(),
   ];
 
   void _onItemTapped(int index) {
@@ -47,6 +50,8 @@ class _MyRenderedPageState extends State<RenderedPage> {
           return "Resources";
         case 5:
           return "Profile";
+        case 6:
+          return "Directory";
       }
       return "Missing Index";
     }
@@ -123,6 +128,14 @@ class _MyRenderedPageState extends State<RenderedPage> {
                 selected: _selectedIndex == 5,
                 onTap: () {
                   _onItemTapped(5);
+                  Navigator.pop(context);
+                }),
+            ListTile(
+                title: const Text('Profile',
+                    style: TextStyle(color: Color(0xFFFFFFFF))),
+                selected: _selectedIndex == 6,
+                onTap: () {
+                  _onItemTapped(6);
                   Navigator.pop(context);
                 }),
           ],
