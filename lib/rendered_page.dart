@@ -131,7 +131,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
                   Navigator.pop(context);
                 }),
             ListTile(
-                title: const Text('Profile',
+                title: const Text('Directory',
                     style: TextStyle(color: Color(0xFFFFFFFF))),
                 selected: _selectedIndex == 6,
                 onTap: () {
