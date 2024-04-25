@@ -69,7 +69,7 @@ class CompanyPopup extends StatelessWidget {
   }
 }
 
-class Company {
+class Company implements Comparable<Company> {
   dynamic name;
   dynamic location;
   dynamic aboutMsg;
@@ -79,6 +79,11 @@ class Company {
   dynamic recruiterEmail;
   Company(this.name, this.location, this.aboutMsg, this.msg, this.recruiterName,
       this.recruiterTitle, this.recruiterEmail);
+
+  @override
+  int compareTo(Company other) {
+    return (name.toLowerCase().compareTo(other.name.toLowerCase()));
+  }
 }
 
 class CompanyItem extends StatelessWidget {
@@ -111,13 +116,10 @@ class _DirectoryState extends State<Directory> {
   final TextEditingController _searchController = TextEditingController();
   bool _isAscendingSort =
       true; // Flag for sorting order (true: A-Z, false: Z-A)
+  bool _isTextEntered = false;
 
-  static List<Company> companies = [
-    Company("Swinerton", "CA", "swinerton about", "msg", "recruiterName",
-        "recruiterTitle", "recruiterEmail"),
-    Company("Granite", "CA", "granite abt", "msg", "recruiterName",
-        "recruiterTitle", "recruiterEmail")
-  ];
+  static List<Company> companies = [];
+  static List<Company> filteredCompanies = [];
   @override
   void initState() {
     // Should initialize companies in here!
@@ -126,6 +128,15 @@ class _DirectoryState extends State<Directory> {
     //   _DirectoryState.companies[i] = Company(i, i, i, i, i, i, i);
     // }
     super.initState();
+    companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+        "recruiterName", "recruiterTitle", "recruiterEmail"));
+    companies.add(Company("Granite", "CA", "granite abt", "msg",
+        "recruiterName", "recruiterTitle", "recruiterEmail"));
+    companies.add(Company("Apple", "CA", "apple about", "msg", "recruiterName",
+        "recruiterTitle", "recruiterEmail"));
+    companies.add(Company("Meta", "CA", "meta abt", "msg", "recruiterName",
+        "recruiterTitle", "recruiterEmail"));
+    companies.sort();
     // Fetch company data from a source (e.g., API call, database)
     // and populate the companies list
   }
@@ -162,6 +173,26 @@ class _DirectoryState extends State<Directory> {
                     ),
                     child: TextField(
                       controller: _searchController,
+                      onChanged: (text) {
+                        setState(() {
+                          _isTextEntered = text.isNotEmpty;
+                          // Clear the previously filtered companies
+                          filteredCompanies.clear();
+
+                          // Iterate through the original list of companies if text is entered
+                          if (_isTextEntered) {
+                            for (Company company in companies) {
+                              // Check if the company name starts with the entered text substring
+                              if (company.name
+                                  .toLowerCase()
+                                  .startsWith(text.toLowerCase())) {
+                                // If it does, add the company to the filtered list
+                                filteredCompanies.add(company);
+                              }
+                            }
+                          }
+                        });
+                      },
                       decoration: InputDecoration(
                         // contentPadding: EdgeInsets.all(2.0),
                         border: InputBorder.none,
@@ -201,6 +232,7 @@ class _DirectoryState extends State<Directory> {
                             onPressed: () {
                               setState(() {
                                 _isAscendingSort = !_isAscendingSort;
+                                companies = companies.reversed.toList();
                                 // Implement sorting logic here (update your content)
                               });
                             },
@@ -215,11 +247,14 @@ class _DirectoryState extends State<Directory> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: companies.length,
+              itemCount:
+                  _isTextEntered ? filteredCompanies.length : companies.length,
               itemBuilder: (context, index) {
+                final List<Company> displayList =
+                    _isTextEntered ? filteredCompanies : companies;
                 return GestureDetector(
                   onTap: () {
-                    Company companyData = companies[index];
+                    Company companyData = displayList[index];
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -232,7 +267,7 @@ class _DirectoryState extends State<Directory> {
                     );
                   },
                   child: CompanyItem(
-                      companies[index]), // Existing CompanyItem widget
+                      displayList[index]), // Existing CompanyItem widget
                 );
               },
             ),
