@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 class Directory extends StatefulWidget {
   const Directory({Key? key}) : super(key: key);
@@ -11,6 +15,9 @@ class Directory extends StatefulWidget {
 // Custom Widget for Popup
 class CompanyPopup extends StatelessWidget {
   final Company company;
+  static const calPolyGreen = Color(0xFF003831);
+  static const calPolyGold = Color.fromRGBO(210, 200, 156, 1);
+
   final VoidCallback onClose;
 
   const CompanyPopup({required this.company, required this.onClose, Key? key})
@@ -19,50 +26,145 @@ class CompanyPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // Makes background transparent
-      body: Stack(
-        // Use Stack within Scaffold for content positioning
+      backgroundColor: calPolyGreen,
+      body: Column(
         children: [
-          // Transparent background to allow tapping outside to close (optional)
-          GestureDetector(
-            onTap: onClose,
-            child: Container(
-              color: Colors.transparent,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ),
-          // Center the popup content
-          Center(
-            child: Container(
-              // Container for popup content
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    // Close button with arrow
-                    Row(
+          Expanded(
+            child: Stack(
+              // Use Stack within Column for content positioning
+              children: [
+                // Transparent background to allow tapping outside to close (optional)
+                GestureDetector(
+                  onTap: onClose,
+                  child: Container(
+                    color: Colors.transparent,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+                // Center the popup content
+                Center(
+                  child: Container(
+                    // Container for popup content
+                    decoration: BoxDecoration(
+                      color: calPolyGold,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(25.0),
+                        bottomRight: Radius.circular(25.0),
+                      ),
+                    ),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
-                          onPressed: onClose,
+                        // Close button with arrow
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.grey),
+                                child: IconButton(
+                                  icon: const Icon(Icons.arrow_back),
+                                  onPressed: onClose,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        // Circle near the top of the page in the middle
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(255, 252, 253,
+                                      240), // Change color as needed
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.construction),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Your existing company details here
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                company.name,
+                                style: const TextStyle(
+                                  fontSize:
+                                      24.0, // Adjust the font size as needed
+                                  fontWeight:
+                                      FontWeight.bold, // Make the text bold
+                                ),
+                              ),
+                              Text(
+                                company.location,
+                                style: const TextStyle(
+                                  fontSize:
+                                      18.0, // Adjust the font size as needed
+                                ),
+                              ),
+                              // ... additional content
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                    // Your existing company details here
-                    Text(company.name),
-                    Text(company.location),
-                    // ... additional content
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
+          // Bottom section with text
+          Expanded(
+              child: Container(
+            // Container properties
+            color: Color.fromARGB(
+                255, 16, 46, 17), // Example color, adjust as needed
+            padding: EdgeInsets.all(16.0), // Example padding, adjust as needed
+
+            child: Column(
+              children: [
+                // First Row
+                Row(children: [
+                  Expanded(
+                      child: Container(
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(12.0)),
+                    height: 100,
+                    width: 100,
+                    color: Colors.white,
+                  ))
+                ]),
+                // Second Row
+                Row(
+                  children: [
+                    Text('Second Row - Widget 1'),
+                    Text('Second Row - Widget 2'),
+                  ],
+                ),
+                // Third Row
+                Row(
+                  children: [
+                    Text('Third Row - Widget 1'),
+                    Text('Third Row - Widget 2'),
+                  ],
+                ),
+              ],
+            ),
+          )),
         ],
       ),
     );
@@ -113,6 +215,45 @@ class CompanyItem extends StatelessWidget {
 }
 
 class _DirectoryState extends State<Directory> {
+  Future<List<Company>> fetchDataFromFirestore() async {
+    List<Map<String, String>> companiesData = [];
+    List<Company> companies = [];
+
+    try {
+      // Get a reference to the Firestore database
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Query the "companies" collection
+      QuerySnapshot querySnapshot =
+          await firestore.collection('companies').get();
+
+      // Iterate through the documents in the query snapshot
+      querySnapshot.docs.forEach((doc) {
+        // Convert each document to a Map and add it to the list
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, String> companyData = {};
+        data.forEach((key, value) {
+          // Convert each value to String and add it to companyData
+          companyData[key] = value.toString();
+        });
+        Company newComp = Company(
+            companyData['name'],
+            companyData['location'],
+            companyData['about'],
+            companyData['msg'],
+            companyData['recruiterName'],
+            companyData['recruiterTitle'],
+            companyData['recruiterEmail']);
+        companies.add(newComp);
+      });
+    } catch (e) {
+      // Handle any errors that occur
+      print('Error fetching data: $e');
+    }
+
+    return companies;
+  }
+
   final TextEditingController _searchController = TextEditingController();
   bool _isAscendingSort =
       true; // Flag for sorting order (true: A-Z, false: Z-A)
@@ -128,15 +269,45 @@ class _DirectoryState extends State<Directory> {
     //   _DirectoryState.companies[i] = Company(i, i, i, i, i, i, i);
     // }
     super.initState();
-    companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-        "recruiterName", "recruiterTitle", "recruiterEmail"));
-    companies.add(Company("Granite", "CA", "granite abt", "msg",
-        "recruiterName", "recruiterTitle", "recruiterEmail"));
-    companies.add(Company("Apple", "CA", "apple about", "msg", "recruiterName",
-        "recruiterTitle", "recruiterEmail"));
-    companies.add(Company("Meta", "CA", "meta abt", "msg", "recruiterName",
-        "recruiterTitle", "recruiterEmail"));
-    companies.sort();
+    // setState(() {
+    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
+    //       "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
+    //       "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
+    //       "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
+    //       "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
+    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
+    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
+    //       "recruiterTitle", "recruiterEmail"));
+    // });
+    fetchDataFromFirestore().then((companiesData) {
+      setState(() {
+        companies = companiesData;
+        companies.sort();
+      });
+    });
+
     // Fetch company data from a source (e.g., API call, database)
     // and populate the companies list
   }
@@ -247,6 +418,7 @@ class _DirectoryState extends State<Directory> {
           ),
           Expanded(
             child: ListView.builder(
+              scrollDirection: Axis.vertical,
               itemCount:
                   _isTextEntered ? filteredCompanies.length : companies.length,
               itemBuilder: (context, index) {
