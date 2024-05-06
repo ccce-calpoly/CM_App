@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 
 class Directory extends StatefulWidget {
   const Directory({Key? key}) : super(key: key);
@@ -15,21 +13,28 @@ class Directory extends StatefulWidget {
 // Custom Widget for Popup
 class CompanyPopup extends StatelessWidget {
   final Company company;
+
+  static const backGroundColor = Color.fromRGBO(255, 253, 237, 1);
   static const calPolyGreen = Color(0xFF003831);
-  static const calPolyGold = Color.fromRGBO(210, 200, 156, 1);
+  static const calPolyGold = Color.fromRGBO(206, 204, 160, 1);
 
   final VoidCallback onClose;
 
   const CompanyPopup({required this.company, required this.onClose, Key? key})
       : super(key: key);
 
+  String getRecName() {
+    return company.recruiterName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: calPolyGreen,
+      backgroundColor: backGroundColor,
       body: Column(
         children: [
           Expanded(
+            flex: 2,
             child: Stack(
               // Use Stack within Column for content positioning
               children: [
@@ -46,7 +51,7 @@ class CompanyPopup extends StatelessWidget {
                 Center(
                   child: Container(
                     // Container for popup content
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: calPolyGold,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(25.0),
@@ -83,12 +88,12 @@ class CompanyPopup extends StatelessWidget {
                               Container(
                                 width: 100,
                                 height: 100,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color.fromARGB(255, 252, 253,
                                       240), // Change color as needed
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: Icon(Icons.construction),
                                 ),
                               ),
@@ -129,42 +134,250 @@ class CompanyPopup extends StatelessWidget {
           ),
           // Bottom section with text
           Expanded(
-              child: Container(
-            // Container properties
-            color: Color.fromARGB(
-                255, 16, 46, 17), // Example color, adjust as needed
-            padding: EdgeInsets.all(16.0), // Example padding, adjust as needed
-
-            child: Column(
-              children: [
-                // First Row
-                Row(children: [
-                  Expanded(
-                      child: Container(
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(12.0)),
-                    height: 100,
-                    width: 100,
-                    color: Colors.white,
-                  ))
-                ]),
-                // Second Row
-                Row(
-                  children: [
-                    Text('Second Row - Widget 1'),
-                    Text('Second Row - Widget 2'),
-                  ],
-                ),
-                // Third Row
-                Row(
-                  children: [
-                    Text('Third Row - Widget 1'),
-                    Text('Third Row - Widget 2'),
-                  ],
-                ),
-              ],
+            flex: 3,
+            child: Container(
+              color: backGroundColor,
+              padding: const EdgeInsets.all(16.0),
+              child: ListView(
+                children: [
+                  // First Section
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Icon(
+                              Icons.person,
+                              size: 36, // Adjust the size of the icon as needed
+                              color:
+                                  Colors.black, // Add your desired icon color
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ), // Add space between icon and text
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                company.recruiterName,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 17, 17, 17),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                company.recruiterTitle,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 111, 111, 111),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // Additional Text Row
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            company.recruiterEmail,
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 100, 100, 100),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Divider between the first section and the rest
+                      const Divider(),
+                    ],
+                  ),
+                  // Second Section (About)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "About",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 102, 102, 102),
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ), // Add space between text elements
+                      Text(
+                        company.aboutMsg,
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 35, 35, 35),
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Divider between the second and third sections
+                  const Divider(),
+                  // Third Section (Message)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Message",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 102, 102, 102),
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ), // Add space between text elements
+                      Text(
+                        company.msg,
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 35, 35, 35),
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          )),
+          )
+
+          // Expanded(
+          //     flex: 3,
+          //     child: Container(
+          //       // Container properties
+          //       color: backGroundColor, // Example color, adjust as needed
+          //       padding:
+          //           EdgeInsets.all(16.0), // Example padding, adjust as needed
+
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           // First Row
+          //           const SizedBox(height: 10),
+          //           Text(
+          //             company.recruiterName,
+          //             style: const TextStyle(
+          //               color: Color.fromARGB(255, 17, 17,
+          //                   17), // Set text color to contrast with brown
+          //               fontSize: 18.0, // Adjust the font size as needed
+          //             ),
+          //           ),
+          //           Row(children: [
+          //             Expanded(
+          //                 flex: 1,
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                       //color: Colors.white,
+          //                       borderRadius: BorderRadius.circular(6.0)),
+          //                   height: 120,
+          //                   width: 100,
+          //                   child: const Column(
+          //                     children: [
+          //                       // SizedBox(
+          //                       //   height: 10,
+          //                       // ),
+          //                       // Text(
+          //                       //   company.recruiterName,
+          //                       // ),
+          //                       // Row(
+          //                       //   mainAxisAlignment: MainAxisAlignment.center,
+          //                       //   children: [
+          //                       //     Text(
+          //                       //       company.recruiterName,
+          //                       //       // style: TextStyle(
+          //                       //       //   fontSize:
+          //                       //       //       16.0, // Adjust the font size as needed
+          //                       //       //   fontWeight:
+          //                       //       //       FontWeight.w500, // Make the text bold
+          //                       //       // ),
+          //                       //     )
+          //                       //   ],
+          //                       // ),
+          //                       // SizedBox(
+          //                       //   height: 10,
+          //                       //   child: const DecoratedBox(
+          //                       //       decoration:
+          //                       //           const BoxDecoration(color: Colors.red)),
+          //                       // ),
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         children: [
+          //                           DecoratedBox(
+          //                             decoration: BoxDecoration(
+          //                                 //color: Colors.brown, // Set the brown color
+          //                                 // borderRadius: BorderRadius.circular(
+          //                                 //     6.0), // Rounded corners
+          //                                 ),
+          //                             child: Row(
+          //                               children: [
+          //                                 Padding(
+          //                                   padding: const EdgeInsets.all(
+          //                                       8.0), // Adjust padding as needed
+          //                                   child: Text(
+          //                                     "Your Text Here",
+          //                                     style: TextStyle(
+          //                                       color: Color.fromARGB(
+          //                                           255,
+          //                                           157,
+          //                                           156,
+          //                                           156), // Set text color to contrast with brown
+          //                                       fontSize:
+          //                                           14.0, // Adjust the font size as needed
+          //                                     ),
+          //                                   ),
+          //                                 ),
+          //                               ],
+          //                             ),
+          //                           ),
+          //                         ],
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ))
+          //           ]),
+          //           const Divider(),
+          //           // Second Row
+          //           Row(children: [
+          //             Expanded(
+          //                 child: Container(
+          //               decoration: BoxDecoration(
+          //                   color: Colors.white,
+          //                   borderRadius: BorderRadius.circular(6.0)),
+          //               height: 120,
+          //               width: 100,
+          //             ))
+          //           ]),
+          //           const SizedBox(height: 10),
+          //           // Third Row
+          //           Row(children: [
+          //             Expanded(
+          //                 child: Container(
+          //               decoration: BoxDecoration(
+          //                   color: Colors.white,
+          //                   borderRadius: BorderRadius.circular(6.0)),
+          //               height: 120,
+          //               width: 100,
+          //             ))
+          //           ]),
+          //         ],
+          //       ),
+          //     )),
         ],
       ),
     );
@@ -216,7 +429,6 @@ class CompanyItem extends StatelessWidget {
 
 class _DirectoryState extends State<Directory> {
   Future<List<Company>> fetchDataFromFirestore() async {
-    List<Map<String, String>> companiesData = [];
     List<Company> companies = [];
 
     try {
@@ -263,44 +475,8 @@ class _DirectoryState extends State<Directory> {
   static List<Company> filteredCompanies = [];
   @override
   void initState() {
-    // Should initialize companies in here!
-    //Call to db companies collection
-    // for (var i = 2; i < 20; i++) {
-    //   _DirectoryState.companies[i] = Company(i, i, i, i, i, i, i);
-    // }
     super.initState();
-    // setState(() {
-    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
-    //       "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
-    //       "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
-    //       "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
-    //       "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Swinerton", "CA", "swinerton about", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("Granite", "CA", "granite abt", "msg",
-    //       "recruiterName", "recruiterTitle", "recruiterEmail"));
-    //   companies.add(Company("apple", "CA", "apple abt", "msg", "recruiterName",
-    //       "recruiterTitle", "recruiterEmail"));
-    // });
+
     fetchDataFromFirestore().then((companiesData) {
       setState(() {
         companies = companiesData;
