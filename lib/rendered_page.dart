@@ -13,6 +13,9 @@ class RenderedPage extends StatefulWidget {
 
 class _MyRenderedPageState extends State<RenderedPage> {
   static const calPolyGreen = Color(0xFF003831);
+  static const textGreen = Color(0xFF164734);
+  static const tanColor = Color(0xFFcecca0);
+  static const lighterTanColor = Color(0xFFfffded);
   static const appBackgroundColor = Color(0xFFE4E3D3);
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
@@ -32,6 +35,19 @@ class _MyRenderedPageState extends State<RenderedPage> {
       _selectedIndex = index;
     });
     //Navigator.pop(context);
+  }
+
+  ListTile createListItem(String title) {
+    return ListTile(
+        tileColor: lighterTanColor,
+        title: Text(title,
+            textAlign: TextAlign.right,
+            style: const TextStyle(color: textGreen, fontSize: 24.0)),
+        selected: _selectedIndex == 0,
+        onTap: () {
+          _onItemTapped(0);
+          Navigator.pop(context);
+        });
   }
 
   @override
@@ -57,90 +73,53 @@ class _MyRenderedPageState extends State<RenderedPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        // leading: Builder(
-        //     builder: (context) => IconButton(
-        //         icon: const Icon(Icons.dehaze),
-        //         onPressed: () => Scaffold.of(context).openDrawer())),
-        backgroundColor: calPolyGreen,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
-          getTitleText(),
-          style: const TextStyle(color: Colors.white),
+        appBar: AppBar(
+          backgroundColor: tanColor,
+          elevation: 0.0,
+          centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: Text(
+            getTitleText(),
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      body: _widgetOptions[_selectedIndex],
-      backgroundColor: appBackgroundColor, //Still determining background color
-      endDrawer: Drawer(
-        backgroundColor: calPolyGreen,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const SizedBox(
-              height: 80,
+        body: _widgetOptions[_selectedIndex],
+        backgroundColor: tanColor, //Still determining background color
+        endDrawer: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Drawer(
+            backgroundColor: lighterTanColor,
+            child: ListView(
+              padding: const EdgeInsets.only(right: 24.0),
+              children: [
+                const SizedBox(
+                  height: 80,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.all(0), // Add padding on the right
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.dehaze,
+                          color: textGreen,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                  ],
+                ),
+                createListItem("Home"),
+                createListItem("Events"),
+                createListItem("Club Info"),
+                createListItem("Academics"),
+                createListItem("Resources"),
+                createListItem("Profile")
+              ],
             ),
-            ListTile(
-                tileColor: calPolyGreen,
-                title: const Text('Home',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 0,
-                onTap: () {
-                  _onItemTapped(0);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                tileColor: calPolyGreen,
-                title: const Text('Events',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 1,
-                onTap: () {
-                  _onItemTapped(1);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                title: const Text('Club Info',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 2,
-                onTap: () {
-                  _onItemTapped(2);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                title: const Text('Academics',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 3,
-                onTap: () {
-                  _onItemTapped(3);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                title: const Text('Resources',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 4,
-                onTap: () {
-                  _onItemTapped(4);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                title: const Text('Profile',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 5,
-                onTap: () {
-                  _onItemTapped(5);
-                  Navigator.pop(context);
-                }),
-            ListTile(
-                title: const Text('Directory',
-                    style: TextStyle(color: Color(0xFFFFFFFF))),
-                selected: _selectedIndex == 6,
-                onTap: () {
-                  _onItemTapped(6);
-                  Navigator.pop(context);
-                }),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
