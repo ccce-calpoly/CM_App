@@ -22,12 +22,12 @@ class _MyRenderedPageState extends State<RenderedPage> {
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
+    const Directory(),
     Container(),
     Container(),
     Container(),
     Container(),
     const ProfileScreen(),
-    const Directory(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,15 +37,17 @@ class _MyRenderedPageState extends State<RenderedPage> {
     //Navigator.pop(context);
   }
 
-  ListTile createListItem(String title) {
+  ListTile createListItem(String title, int index) {
     return ListTile(
         tileColor: lighterTanColor,
         title: Text(title,
             textAlign: TextAlign.right,
-            style: const TextStyle(color: textGreen, fontSize: 24.0)),
-        selected: _selectedIndex == 0,
+            style: const TextStyle(
+                fontFamily: "SansSerifProSemiBold",
+                color: textGreen,
+                fontSize: 24.0)),
         onTap: () {
-          _onItemTapped(0);
+          _onItemTapped(index);
           Navigator.pop(context);
         });
   }
@@ -111,12 +113,13 @@ class _MyRenderedPageState extends State<RenderedPage> {
                     ),
                   ],
                 ),
-                createListItem("Home"),
-                createListItem("Events"),
-                createListItem("Club Info"),
-                createListItem("Academics"),
-                createListItem("Resources"),
-                createListItem("Profile")
+                createListItem("Home", 0),
+                createListItem("Directory", 1),
+                createListItem("Events", 2),
+                createListItem("Club Info", 3),
+                createListItem("Academics", 4),
+                createListItem("Resources", 5),
+                createListItem("Profile", 6)
               ],
             ),
           ),
