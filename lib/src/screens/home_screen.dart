@@ -2,6 +2,7 @@ import 'package:ccce_application/src/collections/calevent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 import 'dart:collection';
 
 class HomeScreen extends StatefulWidget {
@@ -34,7 +35,10 @@ Future<HashMap<DateTime, List<CalEvent>>> fetchEvents() async {
 
 class _CalendarScreenState extends State<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  String _name = "";
   DateTime _focusedDay = DateTime.now();
+  int _focusedMonth = DateTime.now().month;
+  int _focusedYear = DateTime.now().year;
   DateTime? _selectedDay;
   late HashMap<DateTime, List<CalEvent>> eventMap = HashMap();
   List _selectedEvents = [];
@@ -45,6 +49,8 @@ class _CalendarScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _focusedMonth = _focusedDay.month;
+    _focusedYear = _focusedDay.year;
     fetchEvents().then((events) {
       setState(() {
         eventMap = events;
@@ -56,6 +62,8 @@ class _CalendarScreenState extends State<HomeScreen> {
     setState(() {
       _selectedDay = selectedDay;
       _focusedDay = selectedDay;
+      // _focusedMonth = _focusedDay.month;
+      // _focusedYear = _focusedDay.year;
       //print(selectedDay);
       _selectedEvents = _eventLoader(selectedDay);
     });
@@ -85,6 +93,26 @@ class _CalendarScreenState extends State<HomeScreen> {
       onDaySelected: (selectedDay, focusedDay) {
         updateEventsForDay(selectedDay);
       },
+      calendarBuilders: CalendarBuilders(
+        dowBuilder: (context, day) {
+          if (day.weekday == DateTime.sunday) {
+            final text = DateFormat.E().format(day);
+
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+        },
+      ),
+      headerVisible: false,
+      // headerStyle: const HeaderStyle(
+      //   titleCentered: true,
+      //   formatButtonVisible: false, // Hide the format button
+      // ),
+      availableGestures: AvailableGestures.horizontalSwipe,
       onFormatChanged: (format) {
         if (_calendarFormat != format) {
           // Call `setState()` when updating calendar format
@@ -99,6 +127,37 @@ class _CalendarScreenState extends State<HomeScreen> {
       },
       eventLoader: (day) => _eventLoader(day),
     );
+  }
+
+  String dateFormatter(monthInt, year) {
+    switch (monthInt) {
+      case 1:
+        return "January ${year.toString()}";
+      case 2:
+        return "Feburary ${year.toString()}";
+      case 3:
+        return "March ${year.toString()}";
+      case 4:
+        return "April ${year.toString()}";
+      case 5:
+        return "May ${year.toString()}";
+      case 6:
+        return "June ${year.toString()}";
+      case 7:
+        return "July ${year.toString()}";
+      case 8:
+        return "August ${year.toString()}";
+      case 9:
+        return "September ${year.toString()}";
+      case 10:
+        return "October ${year.toString()}";
+      case 11:
+        return "November ${year.toString()}";
+      case 12:
+        return "December ${year.toString()}";
+      default:
+        return year.toString();
+    }
   }
 
   Widget buildEventList() {
@@ -123,11 +182,37 @@ class _CalendarScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-      buildCalendar(),
-      Expanded(
-        child: buildEventList(),
-      )
-    ]));
+      body: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 36.0, bottom: 4.0),
+                child: Text(_name.isNotEmpty ? "Hi!" : "Hi! ${_name}",
+                    style: const TextStyle(
+                        fontFamily: "SansSerifProSemiBold",
+                        fontSize: 36,
+                        color: Colors.white)))
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 36.0, bottom: 24.0),
+                child: Text(dateFormatter(_focusedMonth, _focusedYear),
+                    style: const TextStyle(
+                        fontFamily: "SansSerifProSemiBold",
+                        fontSize: 20,
+                        color: Colors.white)))
+          ],
+        ),
+        buildCalendar(),
+        Expanded(
+          child: buildEventList(),
+        )
+      ]),
+      backgroundColor: Color(0xffcecca0),
+    );
   }
 }
