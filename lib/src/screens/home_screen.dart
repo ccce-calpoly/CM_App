@@ -93,20 +93,20 @@ class _CalendarScreenState extends State<HomeScreen> {
       onDaySelected: (selectedDay, focusedDay) {
         updateEventsForDay(selectedDay);
       },
-      calendarBuilders: CalendarBuilders(
-        dowBuilder: (context, day) {
-          if (day.weekday == DateTime.sunday) {
-            final text = DateFormat.E().format(day);
+      // calendarBuilders: CalendarBuilders(
+      //   dowBuilder: (context, day) {
+      //     if (day.weekday == DateTime.sunday) {
+      //       final text = DateFormat.E().format(day);
 
-            return Center(
-              child: Text(
-                text,
-                style: TextStyle(color: Colors.red),
-              ),
-            );
-          }
-        },
-      ),
+      //       return Center(
+      //         child: Text(
+      //           text,
+      //           style: TextStyle(color: Colors.red),
+      //         ),
+      //       );
+      //     }
+      //   },
+      // ),
       headerVisible: false,
       // headerStyle: const HeaderStyle(
       //   titleCentered: true,
