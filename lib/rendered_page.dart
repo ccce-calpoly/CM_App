@@ -20,10 +20,9 @@ class _MyRenderedPageState extends State<RenderedPage> {
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _pageList = <Widget>[
     const HomeScreen(),
     const Directory(),
-    Container(),
     Container(),
     Container(),
     Container(),
@@ -85,45 +84,40 @@ class _MyRenderedPageState extends State<RenderedPage> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        body: _widgetOptions[_selectedIndex],
+        body: _pageList[_selectedIndex],
         backgroundColor: tanColor, //Still determining background color
-        endDrawer: Container(
-          color: tanColor,
+        endDrawer: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Drawer(
-            backgroundColor: tanColor,
-            child: ListView(
-              padding: const EdgeInsets.only(right: 24.0),
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.all(0), // Add padding on the right
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.dehaze,
-                          color: textGreen,
+              backgroundColor: lighterTanColor,
+              child: SafeArea(
+                  child: ListView(
+                padding: const EdgeInsets.only(right: 24.0),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.all(0), // Add padding on the right
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.dehaze,
+                            color: textGreen,
+                          ),
+                          onPressed: () => Navigator.pop(context),
                         ),
-                        onPressed: () => Navigator.pop(context),
                       ),
-                    ),
-                  ],
-                ),
-                createListItem("Home", 0),
-                createListItem("Directory", 1),
-                createListItem("Events", 2),
-                createListItem("Club Info", 3),
-                createListItem("Academics", 4),
-                createListItem("Resources", 5),
-                createListItem("Profile", 6)
-              ],
-            ),
-          ),
+                    ],
+                  ),
+                  createListItem("Home", 0),
+                  createListItem("Directory", 1),
+                  createListItem("Club Info", 2),
+                  createListItem("Academics", 3),
+                  createListItem("Resources", 4),
+                  createListItem("Profile", 5)
+                ],
+              ))),
         ));
   }
 }
