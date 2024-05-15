@@ -59,17 +59,17 @@ class _MyRenderedPageState extends State<RenderedPage> {
         case 0:
           return "Home";
         case 1:
-          return "Events";
-        case 2:
-          return "Club Info";
-        case 3:
-          return "Academics";
-        case 4:
-          return "Resources";
-        case 5:
-          return "Profile";
-        case 6:
           return "Directory";
+        case 2:
+          return "Events";
+        case 3:
+          return "Club Info";
+        case 4:
+          return "Academics";
+        case 5:
+          return "Resources";
+        case 6:
+          return "Profile";
       }
       return "Missing Index";
     }
@@ -90,39 +90,36 @@ class _MyRenderedPageState extends State<RenderedPage> {
         endDrawer: Container(
           width: MediaQuery.of(context).size.width,
           child: Drawer(
-            backgroundColor: lighterTanColor,
-            child: ListView(
-              padding: const EdgeInsets.only(right: 24.0),
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.all(0), // Add padding on the right
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.dehaze,
-                          color: textGreen,
+              backgroundColor: lighterTanColor,
+              child: SafeArea(
+                  child: ListView(
+                padding: const EdgeInsets.only(right: 24.0),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.all(0), // Add padding on the right
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.dehaze,
+                            color: textGreen,
+                          ),
+                          onPressed: () => Navigator.pop(context),
                         ),
-                        onPressed: () => Navigator.pop(context),
                       ),
-                    ),
-                  ],
-                ),
-                createListItem("Home", 0),
-                createListItem("Directory", 1),
-                createListItem("Events", 2),
-                createListItem("Club Info", 3),
-                createListItem("Academics", 4),
-                createListItem("Resources", 5),
-                createListItem("Profile", 6)
-              ],
-            ),
-          ),
+                    ],
+                  ),
+                  createListItem("Home", 0),
+                  createListItem("Directory", 1),
+                  createListItem("Events", 2),
+                  createListItem("Club Info", 3),
+                  createListItem("Academics", 4),
+                  createListItem("Resources", 5),
+                  createListItem("Profile", 6)
+                ],
+              ))),
         ));
   }
 }
