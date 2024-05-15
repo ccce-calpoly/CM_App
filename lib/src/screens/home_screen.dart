@@ -178,7 +178,6 @@ class CalendarScreenState extends State<HomeScreen> {
                     borderRadius:
                         BorderRadius.circular(10.0), // Adjust border radius
                   ),
-                  padding: const EdgeInsets.only(left: .0),
                   child: Center(
                     child: Text(
                         "${ev.startTime.toString().split(" ")[1].substring(0, 5)}-${ev.endTime.toString().split(" ")[1].substring(0, 5)}",
@@ -231,7 +230,7 @@ class CalendarScreenState extends State<HomeScreen> {
         defaultTextStyle: TextStyle(color: Colors.white),
         weekendTextStyle: TextStyle(color: Colors.white),
         markerSize: 6,
-        tablePadding: EdgeInsets.only(right: 24, left: 24),
+        tablePadding: EdgeInsets.symmetric(horizontal: 24),
         markerDecoration:
             BoxDecoration(color: Color(0xFFE4E2D4), shape: BoxShape.circle),
         selectedDecoration:
@@ -332,13 +331,13 @@ class CalendarScreenState extends State<HomeScreen> {
         ? [
               Container(
                   height: 100,
-                  margin: const EdgeInsets.only(left: 50, right: 50),
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
                   decoration: BoxDecoration(
                       color: const Color(0xFFD9D9D9),
                       borderRadius: BorderRadius.circular(12.0)),
                   child: const Center(
                       child: Padding(
-                          padding: EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
                               "There are no events today. Checkout upcoming events below:",
                               textAlign: TextAlign.center,
@@ -349,7 +348,7 @@ class CalendarScreenState extends State<HomeScreen> {
                   child: const SizedBox(
                       height: 30.0)), // Optional spacing between containers
               Container(
-                  margin: const EdgeInsets.only(left: 25, right: 25),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(

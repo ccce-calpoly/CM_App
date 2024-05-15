@@ -38,7 +38,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
 
   ListTile createListItem(String title, int index) {
     return ListTile(
-        tileColor: tanColor,
+        tileColor: lighterTanColor,
         title: Text(title,
             textAlign: TextAlign.right,
             style: const TextStyle(

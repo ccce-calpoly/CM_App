@@ -17,14 +17,14 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 80),
-                Icon(
+                const SizedBox(height: 80),
+                const Icon(
                   Icons.waving_hand_outlined,
                   size: 200,
                   color: Colors.white,
                 ),
-                SizedBox(height: 40),
-                Text(
+                const SizedBox(height: 40),
+                const Text(
                   'Welcome to',
                   style: TextStyle(
                     color: Colors.white,
@@ -32,12 +32,12 @@ class WelcomePage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'CPCM!',
                   style: TextStyle(fontSize: 36, color: Colors.white),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -48,18 +48,18 @@ class WelcomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.symmetric(horizontal: 100),
+                    padding: const EdgeInsets.symmetric(horizontal: 100),
                     shadowColor: Colors.black,
                     elevation: 5,
                   ),
-                  child: Text(
+                  child: const Text(
                     'Sign in',
                     style: TextStyle(
-                        color: const Color.fromARGB(255, 130, 130, 130),
+                        color: Color.fromARGB(255, 130, 130, 130),
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -67,7 +67,7 @@ class WelcomePage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => signIn()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     "Don't have an account?",
                     style: TextStyle(
                       color: Colors.blue,
@@ -78,7 +78,7 @@ class WelcomePage extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 30, // 30 pixels from the bottom
             child: Icon(
               Icons.info_outline,
