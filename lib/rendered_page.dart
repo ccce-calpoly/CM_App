@@ -26,7 +26,6 @@ class _MyRenderedPageState extends State<RenderedPage> {
     Container(),
     Container(),
     Container(),
-    Container(),
     const ProfileScreen(),
   ];
 
@@ -113,11 +112,10 @@ class _MyRenderedPageState extends State<RenderedPage> {
                   ),
                   createListItem("Home", 0),
                   createListItem("Directory", 1),
-                  createListItem("Events", 2),
-                  createListItem("Club Info", 3),
-                  createListItem("Academics", 4),
-                  createListItem("Resources", 5),
-                  createListItem("Profile", 6)
+                  createListItem("Club Info", 2),
+                  createListItem("Academics", 3),
+                  createListItem("Resources", 4),
+                  createListItem("Profile", 5)
                 ],
               ))),
         ));
