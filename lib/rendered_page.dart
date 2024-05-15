@@ -20,7 +20,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _pageList = <Widget>[
     const HomeScreen(),
     const Directory(),
     Container(),
@@ -85,9 +85,9 @@ class _MyRenderedPageState extends State<RenderedPage> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        body: _widgetOptions[_selectedIndex],
+        body: _pageList[_selectedIndex],
         backgroundColor: tanColor, //Still determining background color
-        endDrawer: Container(
+        endDrawer: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Drawer(
               backgroundColor: lighterTanColor,
