@@ -1,3 +1,4 @@
+import 'package:ccce_application/src/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/auth_gate.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String title = 'CM Home';
   static const calPolyGreen = Color(0xFF003831);
+  static const tanColor = Color(0xFFcecca0);
   //static const appBackgroundColor = Color(0xFFE4E3D3);
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -58,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Top background
           Positioned.fill(
             top: 0,
-            child: Container(color: const Color.fromARGB(255, 86, 86, 1)),
+            child: Container(color: tanColor),
           ),
 
           // White background with rounded corners for text fields
@@ -233,7 +235,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ));
                                     }
                                   },
-                                  child: const Text('Submit'),
+                                  child: const Text(
+                                    'Submit',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                                 const SizedBox(
                                     width:
@@ -246,10 +251,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AuthGate()),
+                                          builder: (context) => signIn()),
                                     );
                                   },
-                                  child: const Text('Sign Out'),
+                                  child: const Text('Sign Out',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ],
                             )

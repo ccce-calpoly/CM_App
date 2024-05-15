@@ -39,7 +39,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
 
   ListTile createListItem(String title, int index) {
     return ListTile(
-        tileColor: lighterTanColor,
+        tileColor: tanColor,
         title: Text(title,
             textAlign: TextAlign.right,
             style: const TextStyle(
@@ -59,17 +59,17 @@ class _MyRenderedPageState extends State<RenderedPage> {
         case 0:
           return "Home";
         case 1:
-          return "Events";
-        case 2:
-          return "Club Info";
-        case 3:
-          return "Academics";
-        case 4:
-          return "Resources";
-        case 5:
-          return "Profile";
-        case 6:
           return "Directory";
+        case 2:
+          return "Events";
+        case 3:
+          return "Club Info";
+        case 4:
+          return "Academics";
+        case 5:
+          return "Resources";
+        case 6:
+          return "Profile";
       }
       return "Missing Index";
     }
@@ -88,9 +88,10 @@ class _MyRenderedPageState extends State<RenderedPage> {
         body: _widgetOptions[_selectedIndex],
         backgroundColor: tanColor, //Still determining background color
         endDrawer: Container(
+          color: tanColor,
           width: MediaQuery.of(context).size.width,
           child: Drawer(
-            backgroundColor: lighterTanColor,
+            backgroundColor: tanColor,
             child: ListView(
               padding: const EdgeInsets.only(right: 24.0),
               children: [
