@@ -1,5 +1,7 @@
+import 'package:ccce_application/src/screens/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/signIn.dart';
+import 'package:flutter/services.dart'; // Import this
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -8,6 +10,9 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     return Scaffold(
       backgroundColor: calPolyGold,
       body: Stack(
@@ -40,7 +45,7 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => signIn()),
                     );
@@ -62,9 +67,9 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => signIn()),
+                      MaterialPageRoute(builder: (context) => SignUp()),
                     );
                   },
                   child: const Text(

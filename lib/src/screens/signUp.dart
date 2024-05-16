@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/rendered_page.dart';
-import 'package:ccce_application/src/screens/signUp.dart';
+import 'package:ccce_application/src/screens/signIn.dart';
 
-class signIn extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _signIn createState() => _signIn();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _signIn extends State<signIn> {
+class _SignUpState extends State<SignUp> {
   static const calPolyGold = Color.fromRGBO(206, 204, 160, 1);
   static const lighterTanColor = Color(0xFFfffded);
   static dynamic errorMsg = '';
   late User? _user;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -82,7 +84,7 @@ class _signIn extends State<signIn> {
                     child: TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: 'Username',
+                        labelText: 'Email',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
                         labelStyle: TextStyle(
@@ -93,6 +95,7 @@ class _signIn extends State<signIn> {
                     ),
                   ),
                   SizedBox(height: 20),
+
                   // Password TextField
                   Container(
                     width: MediaQuery.of(context).size.width * 0.75,
@@ -116,7 +119,32 @@ class _signIn extends State<signIn> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // Sign In Button
+
+                  // Confirm Password TextField
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: lighterTanColor,
+                    ),
+                    child: TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(10),
+                        labelStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  // Sign Up Button
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     height: 50,
@@ -128,15 +156,14 @@ class _signIn extends State<signIn> {
                             color: Colors.black.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 8,
-                            offset:
-                                Offset(0, 4), // Shadow positioned at the bottom
+                            offset: Offset(0, 4),
                           ),
                         ],
                       ),
                       child: ElevatedButton(
-                        onPressed: _signInFunc,
+                        onPressed: _signUpFunc,
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -152,18 +179,17 @@ class _signIn extends State<signIn> {
                     ),
                   ),
                   SizedBox(
-                      height:
-                          10), // Add some space between sign-in button and clickable text
+                    height: 10,
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUp()),
+                        MaterialPageRoute(builder: (context) => signIn()),
                       );
-                      // Add your navigation logic here
                     },
                     child: Text(
-                      "Don't have an account?",
+                      "Already have an account? Sign In",
                       style: TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
@@ -172,14 +198,6 @@ class _signIn extends State<signIn> {
                   ),
                 ],
               ),
-              // Positioned(
-              //   bottom: -0, // Positioned at the bottom
-              //   child: Icon(
-              //     Icons.info_outline,
-              //     color: Colors.white,
-              //     size: 24,
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -187,26 +205,35 @@ class _signIn extends State<signIn> {
     );
   }
 
-  Future<void> _signInFunc() async {
+  Future<void> _signUpFunc() async {
     try {
       String email = _emailController.text.trim();
       String password = _passwordController.text.trim();
-      // Implement your custom sign-in logic here
+      String confirmPassword = _confirmPasswordController.text.trim();
+
+      if (password != confirmPassword) {
+        setState(() {
+          errorMsg = "Passwords do not match";
+        });
+        return;
+      }
+
+      // Implement your custom sign-up logic here
       // For example:
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      // If sign-in is successful, navigate to the new page
+      // If sign-up is successful, navigate to the new page
       if (userCredential.user != null) {
         setState(() {
           errorMsg = "";
         });
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const RenderedPage(),
@@ -219,13 +246,13 @@ class _signIn extends State<signIn> {
           setState(() {
             errorMsg = "Invalid Email";
           });
-        } else if (e.code == "invalid-credential") {
+        } else if (e.code == "email-already-in-use") {
           setState(() {
-            errorMsg = "Invalid Credentials";
+            errorMsg = "Email already in use";
           });
-        } else if (e.code == "channel-error") {
+        } else if (e.code == "weak-password") {
           setState(() {
-            errorMsg = "Cannot Leave Fields Blank";
+            errorMsg = "Password is too weak";
           });
         }
       }
