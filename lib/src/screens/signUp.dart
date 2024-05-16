@@ -233,7 +233,7 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           errorMsg = "";
         });
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const RenderedPage(),

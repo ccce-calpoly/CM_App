@@ -60,14 +60,14 @@ class _MyRenderedPageState extends State<RenderedPage> {
         case 1:
           return "Directory";
         case 2:
-          return "Events";
-        case 3:
           return "Club Info";
-        case 4:
+        case 3:
           return "Academics";
-        case 5:
+        // case 4:
+        //   return "Events";
+        case 4:
           return "Resources";
-        case 6:
+        case 5:
           return "Profile";
       }
       return "Missing Index";
