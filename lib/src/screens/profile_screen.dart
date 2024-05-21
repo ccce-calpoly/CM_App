@@ -8,10 +8,10 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen> {
   final String title = 'CM Home';
   static const calPolyGreen = Color(0xFF003831);
   static const tanColor = Color(0xFFcecca0);
@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void loadUserData() {
     // Load user data and update the text controllers
-    final curUser = FirebaseAuth.instance.currentUser;
+    curUser = FirebaseAuth.instance.currentUser;
     if (curUser != null) {
       FirebaseFirestore.instance
           .collection('users')
@@ -50,6 +50,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       });
     }
+  }
+
+  Row editButtonBuild() {
+    List<Widget> children = [
+      ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: calPolyGreen),
+        onPressed: () async {
+          setState(() {
+            _editMode = !_editMode;
+          });
+          // Retrieve values from form fields
+          final firstName = _firstNameController.text;
+          final lastName = _lastNameController.text;
+          final schoolYear = _schoolYearController.text;
+          final company = _companyController.text;
+
+          // Get the user ID
+          String? userID = curUser.uid;
+          String? email = curUser.email;
+
+          // Check if any field is empty
+          if (firstName.isEmpty ||
+              lastName.isEmpty ||
+              schoolYear.isEmpty ||
+              company.isEmpty) {
+            // Show a popup (dialog)
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Please fill out all fields.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+            return;
+          }
+          try {
+            // Get a reference to the users collection
+            final userCollection =
+                FirebaseFirestore.instance.collection('users');
+
+            // Create a new user document with the entered data
+            // Merge: true creates new user if user doesnt exist, modifies if this user already existsLamk
+            await userCollection.doc(userID).set({
+              'email': email,
+              'firstName': firstName,
+              'lastName': lastName,
+              'schoolYear': schoolYear,
+              'company': company,
+            }, SetOptions(merge: true));
+
+            // Show a success message
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('User edited successfully!'),
+            ));
+          } catch (e) {
+            // Handle errors
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Error creating user. Please try again later.'),
+            ));
+          }
+        },
+        child: const Text(
+          'Submit',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      const SizedBox(width: 16), // Adding some space between buttons
+      ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: calPolyGreen),
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => signIn()),
+          );
+        },
+        child: const Text('Sign Out', style: TextStyle(color: Colors.white)),
+      ),
+    ];
+
+    return Row(
+      children: [
+        for (int i = 0; i < children.length; i++)
+          if ((i != 0 && i != 1) || _editMode)
+            children[i], // Hide first child if flag is true
+      ],
+    );
+  }
+
+  TextFormField createProfileAttributeField(
+      String label, TextEditingController controller) {
+    return TextFormField(
+      controller: controller,
+      enabled: _editMode,
+      decoration: InputDecoration(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0),
+        labelText: label,
+        border: InputBorder.none,
+      ),
+    );
+  }
+
+  Container createProfileAttributeContainer(TextFormField attributeField) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: attributeField);
   }
 
   @override
@@ -71,10 +191,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             bottom: 0,
             child: Container(
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Color(0xFFFFFDED),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
+                  topLeft: Radius.circular(32.0),
+                  topRight: Radius.circular(32.0),
                 ),
               ),
               padding: const EdgeInsets.all(20.0),
@@ -85,182 +205,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: <Widget>[
                     const SizedBox(
                         height: 120.0), // Adding space between the fields
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextFormField(
-                        controller: _firstNameController,
-                        decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 20.0),
-                          labelText: 'First Name',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
+                    createProfileAttributeContainer(createProfileAttributeField(
+                        "First Name", _firstNameController)),
                     const SizedBox(
                         height: 24.0), // Adding space between the fields
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextFormField(
-                        controller: _lastNameController,
-                        decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 20.0),
-                          labelText: 'Last Name',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
+                    createProfileAttributeContainer(createProfileAttributeField(
+                        "Last Name", _lastNameController)),
                     const SizedBox(
                         height: 24.0), // Adding space between the fields
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextFormField(
-                        controller: _schoolYearController,
-                        decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 20.0),
-                          labelText: 'School Year',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
+                    createProfileAttributeContainer(createProfileAttributeField(
+                        "School Year", _schoolYearController)),
                     const SizedBox(
                         height: 24.0), // Adding space between the fields
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: TextFormField(
-                        controller: _companyController,
-                        decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 20.0),
-                          labelText: 'Company',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
+                    createProfileAttributeContainer(createProfileAttributeField(
+                        "Company", _companyController)),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: _editMode
-                          ? Row(
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: calPolyGreen),
-                                  onPressed: () async {
-                                    // Retrieve values from form fields
-                                    final firstName = _firstNameController.text;
-                                    final lastName = _lastNameController.text;
-                                    final schoolYear =
-                                        _schoolYearController.text;
-                                    final company = _companyController.text;
-
-                                    // Clear values in form fields
-                                    _firstNameController.clear();
-                                    _lastNameController.clear();
-                                    _schoolYearController.clear();
-                                    _companyController.clear();
-
-                                    // Get the user ID
-                                    String? userID = curUser.uid;
-                                    String? email = curUser.email;
-
-                                    // Check if any field is empty
-                                    if (firstName.isEmpty ||
-                                        lastName.isEmpty ||
-                                        schoolYear.isEmpty ||
-                                        company.isEmpty) {
-                                      // Show a popup (dialog)
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text('Error'),
-                                            content: const Text(
-                                                'Please fill out all fields.'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                },
-                                                child: const Text('OK'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                      return;
-                                    }
-                                    try {
-                                      // Get a reference to the users collection
-                                      final userCollection = FirebaseFirestore
-                                          .instance
-                                          .collection('users');
-
-                                      // Create a new user document with the entered data
-                                      // Merge: true creates new user if user doesnt exist, modifies if this user already existsLamk
-                                      await userCollection.doc(userID).set({
-                                        'email': email,
-                                        'firstName': firstName,
-                                        'lastName': lastName,
-                                        'schoolYear': schoolYear,
-                                        'company': company,
-                                      }, SetOptions(merge: true));
-
-                                      // Show a success message
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content:
-                                            Text('User created successfully!'),
-                                      ));
-                                    } catch (e) {
-                                      // Handle errors
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content: Text(
-                                            'Error creating user. Please try again later.'),
-                                      ));
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Submit',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                const SizedBox(
-                                    width:
-                                        16), // Adding some space between buttons
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: calPolyGreen),
-                                  onPressed: () async {
-                                    await FirebaseAuth.instance.signOut();
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => signIn()),
-                                    );
-                                  },
-                                  child: const Text('Sign Out',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ],
-                            )
-                          : Container(), // Empty container when not in edit mode
+                      child:
+                          editButtonBuild(), // Empty container when not in edit mode
                     ),
+                    Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              // Apply border to the bottom
+                              color: Color(0xFFD9D9D9),
+                              width: 1.0, // Adjust line thickness
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -278,58 +252,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 186,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 93, 93, 93), width: 2),
-                    color: const Color.fromARGB(
-                        255, 251, 251, 251), // Change to your desired color
+                    border:
+                        Border.all(color: const Color(0xFFD9D9D9), width: 2),
+                    color:
+                        const Color(0xFFFFFDED), // Change to your desired color
                   ),
                   // You can put an Image or Icon widget inside the container for profile picture
                   child: const Icon(Icons.person,
                       size: 100, color: Color.fromARGB(255, 118, 118, 118)),
                 ),
                 Positioned(
-                  bottom: 10, // Adjust as needed
-                  right: 10, // Adjust as needed
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        // Toggle edit mode
-                        _editMode = !_editMode;
-                        if (_editMode) {
-                          _firstNameController.clear();
-                          _lastNameController.clear();
-                          _schoolYearController.clear();
-                          _companyController.clear();
-                        } else {
-                          _firstNameController.text =
-                              curUserData['firstName'] ?? '';
-                          _lastNameController.text =
-                              curUserData['lastName'] ?? '';
-                          _schoolYearController.text =
-                              curUserData['schoolYear'] ?? '';
-                          _companyController.text =
-                              curUserData['company'] ?? '';
-                        }
-                      });
-                      // Add your onPressed function here
-                      // For example, you can navigate to another screen
-                      // or show a dialog to edit the profile
-                    },
+                    bottom: 10, // Adjust as needed
+                    right: 10, // Adjust as needed
                     child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 24,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Color(0xFFD9D9D9)),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(100),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                // Toggle edit mode
+                                if (_editMode == false) {
+                                  _editMode = !_editMode;
+                                }
+                              });
+                              // Add your onPressed function here
+                              // For example, you can navigate to another screen
+                              // or show a dialog to edit the profile
+                            },
+                            child: Ink(
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              child: const Icon(
+                                Icons.edit,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )))
               ],
             ),
           ),

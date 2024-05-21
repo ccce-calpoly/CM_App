@@ -12,11 +12,9 @@ class RenderedPage extends StatefulWidget {
 }
 
 class _MyRenderedPageState extends State<RenderedPage> {
-  static const calPolyGreen = Color(0xFF003831);
   static const textGreen = Color(0xFF164734);
   static const tanColor = Color(0xFFcecca0);
   static const lighterTanColor = Color(0xFFfffded);
-  static const appBackgroundColor = Color(0xFFE4E3D3);
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -63,12 +61,12 @@ class _MyRenderedPageState extends State<RenderedPage> {
           return "Club Info";
         case 3:
           return "Academics";
-        // case 4:
-        //   return "Events";
         case 4:
           return "Resources";
         case 5:
           return "Profile";
+        default:
+          return "titletext";
       }
       return "Missing Index";
     }
