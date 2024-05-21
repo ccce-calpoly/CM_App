@@ -1,4 +1,4 @@
-import 'package:ccce_application/src/screens/signIn.dart';
+import 'package:ccce_application/src/screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

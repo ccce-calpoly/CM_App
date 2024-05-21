@@ -48,6 +48,7 @@ ios/Podfile
 ios/Podfile.lock
 ios/Runner.xcodeproj/project.pbxproj
 ios/Runner.xcworkspace/contents.xcworkspacedata
+ios/*
 linux/flutter/generated_plugin_registrant.cc
 linux/flutter/generated_plugins.cmake
 macos/Flutter/

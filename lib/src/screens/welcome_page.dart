@@ -1,6 +1,6 @@
-import 'package:ccce_application/src/screens/signUp.dart';
+import 'package:ccce_application/src/screens/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'package:ccce_application/src/screens/signIn.dart';
+import 'package:ccce_application/src/screens/sign_in.dart';
 import 'package:flutter/services.dart'; // Import this
 
 class WelcomePage extends StatelessWidget {
