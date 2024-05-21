@@ -12,18 +12,12 @@ class _signIn extends State<signIn> {
   static const calPolyGold = Color.fromRGBO(206, 204, 160, 1);
   static const lighterTanColor = Color(0xFFfffded);
   static dynamic errorMsg = '';
-  late User? _user;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      setState(() {
-        _user = user;
-      });
-    });
   }
 
   @override
