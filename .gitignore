@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+ios/Flutter/AppFrameworkInfo.plist
+ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
 
 # Symbolication related
 app.*.symbols
