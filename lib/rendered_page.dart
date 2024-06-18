@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
-import 'package:ccce_application/src/screens/directory.dart';
+import 'package:ccce_application/src/screens/member_directory.dart';
 
 import 'package:ccce_application/src/screens/home_screen.dart';
 
@@ -12,7 +12,7 @@ class RenderedPage extends StatefulWidget {
 }
 
 class _MyRenderedPageState extends State<RenderedPage> {
-  static const textGreen = Color(0xFF164734);
+  static const standardGreen = Color(0xFF164734);
   static const tanColor = Color(0xFFcecca0);
   static const lighterTanColor = Color(0xFFfffded);
   int _selectedIndex = 0;
@@ -20,7 +20,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _pageList = <Widget>[
     const HomeScreen(),
-    const Directory(),
+    const MemberDirectory(),
     Container(),
     Container(),
     Container(),
@@ -41,7 +41,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
             textAlign: TextAlign.right,
             style: const TextStyle(
                 fontFamily: "SansSerifProSemiBold",
-                color: textGreen,
+                color: standardGreen,
                 fontSize: 24.0)),
         onTap: () {
           _onItemTapped(index);
@@ -56,7 +56,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
         case 0:
           return "Home";
         case 1:
-          return "Directory";
+          return "Member Directory";
         case 2:
           return "Club Info";
         case 3:
@@ -71,16 +71,34 @@ class _MyRenderedPageState extends State<RenderedPage> {
       return "Missing Index";
     }
 
+    Color getAppBarColor() {
+      switch (_selectedIndex) {
+        case 0:
+          return tanColor;
+        default:
+          return lighterTanColor;
+      }
+    }
+
+    IconThemeData getIconThemeData() {
+      switch (_selectedIndex) {
+        case 0:
+          return const IconThemeData(color: Colors.white);
+        default:
+          return const IconThemeData(color: standardGreen);
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: tanColor,
+          backgroundColor: getAppBarColor(),
           elevation: 0.0,
           centerTitle: true,
-          iconTheme: const IconThemeData(color: Colors.white),
-          title: Text(
-            getTitleText(),
-            style: const TextStyle(color: Colors.white),
-          ),
+          iconTheme: getIconThemeData(),
+          // title: Text(
+          //   getTitleText(),
+          //   style: const TextStyle(color: Colors.white),
+          // ),
         ),
         body: _pageList[_selectedIndex],
         backgroundColor: tanColor, //Still determining background color
@@ -101,7 +119,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
                         child: IconButton(
                           icon: const Icon(
                             Icons.dehaze,
-                            color: textGreen,
+                            color: standardGreen,
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
@@ -109,7 +127,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
                     ],
                   ),
                   createListItem("Home", 0),
-                  createListItem("Directory", 1),
+                  createListItem("Member Directory", 1),
                   createListItem("Club Info", 2),
                   createListItem("Academics", 3),
                   createListItem("Resources", 4),

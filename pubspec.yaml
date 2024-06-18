@@ -43,6 +43,7 @@ dependencies:
   # Adding cloud_firestore
   cloud_firestore: ^4.14.0
   table_calendar: ^3.0.9
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

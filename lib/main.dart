@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:isar/isar.dart';
 // import 'package:ccce_application/src/screens/profile_screen.dart';
 // import 'package:ccce_application/src/screens/home_screen.dart';
@@ -13,13 +14,25 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  late var _tosCheck;
+  
+  
+  Future<void> _loadTOS() async {
+    final prefs = await SharedPreferences.getInstance();
+    _tosCheck = prefs.getBool('TOS') ?? false;
+  }
+  
   @override
   Widget build(BuildContext context) {
+    _loadTOS();
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
