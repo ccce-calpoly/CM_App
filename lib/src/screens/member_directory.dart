@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:ccce_application/src/collections/company.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Directory extends StatefulWidget {
-  const Directory({Key? key}) : super(key: key);
+class MemberDirectory extends StatefulWidget {
+  const MemberDirectory({Key? key}) : super(key: key);
 
   final String title = "Directory";
   @override
-  State<Directory> createState() => _DirectoryState();
+  State<MemberDirectory> createState() => _MemberDirectoryState();
 }
 
-class _DirectoryState extends State<Directory> {
+class _MemberDirectoryState extends State<MemberDirectory> {
   Future<List<Company>> fetchDataFromFirestore() async {
     List<Company> companies = [];
 

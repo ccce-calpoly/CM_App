@@ -88,15 +88,15 @@ class CalendarScreenState extends State<HomeScreen> {
   List<Container> _getNextEvents(DateTime day) {
     List<CalEvent> nextEvents = [];
     List<Container> eventContainers = [];
-    var foundEvents = 0;
-    for (var events in eventMap.entries) {
+    List<MapEntry<DateTime, List<CalEvent>>> sortedEntries =
+        eventMap.entries.toList()..sort((a, b) => a.key.compareTo(b.key));
+    for (var events in sortedEntries) {
       final eventDate = events.key;
-      if (eventDate.isAfter(day) && foundEvents < 3) {
+      if (eventDate.isAfter(day) && nextEvents.length < 3) {
         // Check for future dates and limit to 3 events
         nextEvents.addAll(events.value); // Add all events for the current date
-        foundEvents += events.value.length;
       }
-      if (foundEvents >= 3) {
+      if (nextEvents.length >= 3) {
         break; // Stop iterating if we already found 3 events
       }
     }
@@ -199,7 +199,7 @@ class CalendarScreenState extends State<HomeScreen> {
                           child: Column(
                         children: [
                           Text(ev.eventName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: "SansSerifProSemiBold",
                                   fontSize: 13)),
                           Text(ev.eventLocation,
