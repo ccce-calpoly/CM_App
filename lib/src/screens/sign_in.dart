@@ -3,12 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/rendered_page.dart';
 import 'package:ccce_application/src/screens/sign_up.dart';
 
-class signIn extends StatefulWidget {
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
+
   @override
-  _signIn createState() => _signIn();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _signIn extends State<signIn> {
+class _SignInState extends State<SignIn> {
   static const calPolyGold = Color.fromRGBO(206, 204, 160, 1);
   static const lighterTanColor = Color(0xFFfffded);
   static dynamic errorMsg = '';
@@ -32,19 +34,19 @@ class _signIn extends State<signIn> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
                   // Your icon and text here
-                  Icon(
+                  const Icon(
                     Icons.waving_hand_outlined,
                     size: 100,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     'CPCM',
                     style: TextStyle(
                         fontSize: 40,
@@ -55,13 +57,13 @@ class _signIn extends State<signIn> {
                     height: 20,
                     child: Text(
                       errorMsg,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.red,
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
 
@@ -75,7 +77,7 @@ class _signIn extends State<signIn> {
                     ),
                     child: TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Username',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
@@ -129,23 +131,24 @@ class _signIn extends State<signIn> {
                       ),
                       child: ElevatedButton(
                         onPressed: _signInFunc,
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500),
-                        ),
+                        
                         style: ElevatedButton.styleFrom(
                           backgroundColor: lighterTanColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height:
                           10), // Add some space between sign-in button and clickable text
                   GestureDetector(

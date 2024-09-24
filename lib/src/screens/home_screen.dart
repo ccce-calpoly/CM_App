@@ -41,6 +41,7 @@ class CalendarScreenState extends State<HomeScreen> {
   DateTime? _selectedDay;
   late HashMap<DateTime, List<CalEvent>> eventMap = HashMap();
   List _selectedEvents = [];
+  bool _screenBool = false;
 
   static const calPolyGreen = Color(0xFF003831);
   static const appBackgroundColor = Color(0xFFE4E3D3);
@@ -156,8 +157,8 @@ class CalendarScreenState extends State<HomeScreen> {
     return eventContainers;
   }
 
-  List<Container> _getDayEvents(DateTime day) {
-    List<Container> eventContainers = [];
+  List<Widget> _getDayEvents(DateTime day) {
+    List<Widget> eventContainers = [];
     List<CalEvent> evs = eventMap[day] ?? [];
 
     int it = 0;
@@ -165,8 +166,7 @@ class CalendarScreenState extends State<HomeScreen> {
       Color boxColor =
           (it == 0) ? const Color(0xFFAAC9E8) : const Color(0xFFD5E3F4);
       it = it + 1;
-      eventContainers.add(Container(
-          child: Row(
+      eventContainers.add(Row(
         children: [
           Padding(
               padding: const EdgeInsets.only(left: 20, bottom: 10),
@@ -203,14 +203,14 @@ class CalendarScreenState extends State<HomeScreen> {
                                   fontFamily: "SansSerifProSemiBold",
                                   fontSize: 13)),
                           Text(ev.eventLocation,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: "SansSerifPro", fontSize: 10))
                         ],
                       )))) // Content for the second box
               // Optional padding
               ),
         ],
-      )));
+      ));
     }
     return eventContainers;
   }
@@ -344,9 +344,8 @@ class CalendarScreenState extends State<HomeScreen> {
                               style: TextStyle(
                                   fontFamily: "SansSerifProItalic",
                                   fontSize: 16))))),
-              Container(
-                  child: const SizedBox(
-                      height: 30.0)), // Optional spacing between containers
+              const SizedBox(
+                  height: 30.0), // Optional spacing between containers
               Container(
                   margin: const EdgeInsets.symmetric(horizontal: 25),
                   decoration: const BoxDecoration(
@@ -401,38 +400,142 @@ class CalendarScreenState extends State<HomeScreen> {
     //  children: <Widget>[const Text("HI"), buildEventList()])));
   }
 
+  Widget buildAnnouncementList() {
+    var eventContainers = _getDayEvents(_focusedDay);
+
+    eventContainers = eventContainers.isEmpty
+        ? [
+              Container(
+                  height: 100,
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFD9D9D9),
+                      borderRadius: BorderRadius.circular(12.0)),
+                  child: const Center(
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                              "There are no new announcements at this time.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "SansSerifProItalic",
+                                  fontSize: 16))))),
+              Container(
+                  child: const SizedBox(
+                      height: 30.0)), // Optional spacing between containers
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        // Apply border to the bottom
+                        color: Colors.black,
+                        width: 1.0, // Adjust line thickness
+                      ),
+                    ),
+                  )),
+              const SizedBox(height: 30.0),
+            ] +
+            _getNextEvents(_focusedDay)
+        : eventContainers;
+
+    var fullList = <Widget>[
+          const SizedBox(height: 24),
+          const Padding(
+              padding: EdgeInsets.only(left: 36, top: 12),
+              child: Row(children: [
+                Icon(
+                  Icons.circle_notifications,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text("Notification Board",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "SansSerifProSemiBold",
+                        fontSize: 28)),
+              ])),
+          SizedBox(height: 10),
+        ] +
+        eventContainers.toList();
+    return ListView(children: fullList);
+  }
+
+  Widget buildAnnouncementDisplay() {
+    return Expanded(
+      child: Container(
+          decoration: BoxDecoration(
+            color: calPolyGreen,
+            borderRadius: BorderRadius.circular(40.0),
+            // Adjust border radius
+          ),
+          child: buildAnnouncementList()),
+    );
+    //child: Column(
+    //  children: <Widget>[const Text("HI"), buildEventList()])));
+  }
+
+  final WidgetStateProperty<Icon?> thumbIcon =
+      WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return const Icon(
+          Icons.circle_notifications,
+          size: 24,
+        );
+      }
+      return const Icon(Icons.calendar_month, color: Colors.black);
+    },
+  );
+
   @override
   Widget build(BuildContext context) {
+    Widget calWidget = buildCalendar();
+    Widget eventDisplayWidget = buildEventDisplay();
+    Widget announcementDisplayWidget = buildAnnouncementDisplay();
+
     return Scaffold(
       body: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(left: 36.0, bottom: 4.0),
-                child: Text(_name.isNotEmpty ? "Hi!" : "Hi! ${_name}",
+                child: Text(_name.isNotEmpty ? "Hi!" : "Hi! $_name",
                     style: const TextStyle(
                         fontFamily: "SansSerifProSemiBold",
                         fontSize: 36,
                         color: Colors.white)))
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(left: 36.0, bottom: 24.0),
-                child: Text(dateFormatter(_focusedMonth, _focusedYear),
-                    style: const TextStyle(
-                      fontFamily: "SansSerifProSemiBold",
-                      fontSize: 20,
-                      color: Colors.white,
-                    )))
-          ],
+        Padding(
+          padding: const EdgeInsets.only(left: 36.0, right: 36.0, bottom: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(dateFormatter(_focusedMonth, _focusedYear),
+                  style: const TextStyle(
+                    fontFamily: "SansSerifProSemiBold",
+                    fontSize: 20,
+                    color: Colors.white,
+                  )),
+              Switch(
+                thumbIcon: thumbIcon,
+                activeTrackColor: calPolyGreen,
+                inactiveThumbColor: const Color(0xFFcecca0),
+                value: _screenBool,
+                onChanged: (value) {
+                  setState(() {
+                    _screenBool = value;
+                  });
+                },
+              )
+            ],
+          ),
         ),
-        buildCalendar(),
-        const SizedBox(height: 20),
-        buildEventDisplay(),
+        _screenBool ? announcementDisplayWidget : calWidget,
+        _screenBool ? Container() : const SizedBox(height: 20),
+        _screenBool ? Container() : eventDisplayWidget
       ]),
       backgroundColor: const Color(0xffcecca0),
     );

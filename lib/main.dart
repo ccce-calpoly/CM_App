@@ -17,19 +17,18 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
 
   runApp(MyApp());
+  
 }
-
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   late var _tosCheck;
-  
-  
+
   Future<void> _loadTOS() async {
     final prefs = await SharedPreferences.getInstance();
     _tosCheck = prefs.getBool('TOS') ?? false;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     _loadTOS();

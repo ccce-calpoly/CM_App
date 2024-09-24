@@ -47,7 +47,7 @@ class WelcomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => signIn()),
+                      MaterialPageRoute(builder: (context) => const SignIn()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

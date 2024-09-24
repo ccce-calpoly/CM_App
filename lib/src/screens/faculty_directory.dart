@@ -1,69 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:ccce_application/src/collections/company.dart';
+import 'package:ccce_application/src/collections/faculty.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MemberDirectory extends StatefulWidget {
-  const MemberDirectory({Key? key}) : super(key: key);
+class FacultyDirectory extends StatefulWidget {
+  const FacultyDirectory({Key? key}) : super(key: key);
 
   final String title = "Directory";
   @override
-  State<MemberDirectory> createState() => _MemberDirectoryState();
+  State<FacultyDirectory> createState() => _FacultyDirectoryState();
 }
 
-class _MemberDirectoryState extends State<MemberDirectory> {
-  Future<List<Company>> fetchDataFromFirestore() async {
-    List<Company> companies = [];
+class _FacultyDirectoryState extends State<FacultyDirectory> {
+  Future<List<Faculty>> fetchDataFromFirestore() async {
+    List<Faculty> facultyList = [];
 
     try {
       // Get a reference to the Firestore database
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       // Query the "companies" collection
-      QuerySnapshot querySnapshot =
-          await firestore.collection('companies').get();
+      QuerySnapshot querySnapshot = await firestore.collection('faculty').get();
 
       // Iterate through the documents in the query snapshot
       querySnapshot.docs.forEach((doc) {
         // Convert each document to a Map and add it to the list
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        Map<String, String> companyData = {};
+        Map<String, String> facultyData = {};
         data.forEach((key, value) {
           // Convert each value to String and add it to companyData
-          companyData[key] = value.toString();
+          facultyData[key] = value.toString();
         });
-        Company newComp = Company(
-            companyData['name'],
-            companyData['location'],
-            companyData['about'],
-            companyData['msg'],
-            companyData['recruiterName'],
-            companyData['recruiterTitle'],
-            companyData['recruiterEmail']);
-        companies.add(newComp);
+        bool administration = false;
+        if (facultyData['administration'] != null) {
+          administration =
+              facultyData['administration']!.toLowerCase().contains("true");
+        }
+        Faculty newFaculty = Faculty(
+            facultyData['first name'],
+            facultyData['last name'],
+            facultyData['title'],
+            facultyData['email'],
+            facultyData['phone'],
+            facultyData['hours'],
+            administration,
+            facultyData['emeritus'] == "true" ? true : false);
+        facultyList.add(newFaculty);
       });
     } catch (e) {
       // Handle any errors that occur
       print('Error fetching data: $e');
     }
 
-    return companies;
+    return facultyList;
   }
 
   final TextEditingController _searchController = TextEditingController();
   bool _isTextEntered = false;
 
-  static List<Company> companies = [];
-  static List<Company> filteredCompanies = [];
+  static List<Faculty> facultyList = [];
+  static List<Faculty> filteredFaculty = [];
   static const tanColor = Color(0xFFcecca0);
   static const lighterTanColor = Color(0xFFfffded);
   @override
   void initState() {
     super.initState();
 
-    fetchDataFromFirestore().then((companiesData) {
+    fetchDataFromFirestore().then((facultyData) {
       setState(() {
-        companies = companiesData;
-        companies.sort();
+        facultyList = facultyData;
+        facultyList.sort();
       });
     });
 
@@ -75,7 +80,7 @@ class _MemberDirectoryState extends State<MemberDirectory> {
   Widget build(BuildContext context) {
     void sortAlphabetically() {
       setState(() {
-        companies = companies.reversed.toList();
+        facultyList = facultyList.reversed.toList();
       });
     }
 
@@ -96,8 +101,8 @@ class _MemberDirectoryState extends State<MemberDirectory> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6), // Rounded corners
             ),
-            textStyle: TextStyle(fontSize: 14),
-            side: BorderSide(
+            textStyle: const TextStyle(fontSize: 14),
+            side: const BorderSide(
                 color: Colors.black, width: 1), // Border color and width
             fixedSize: const Size(60, 30), // Set the button size
             minimumSize: Size(80, 20), // Minimum size constraint
@@ -141,17 +146,18 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                         setState(() {
                           _isTextEntered = text.isNotEmpty;
                           // Clear the previously filtered companies
-                          filteredCompanies.clear();
+                          filteredFaculty.clear();
 
                           // Iterate through the original list of companies if text is entered
                           if (_isTextEntered) {
-                            for (Company company in companies) {
+                            for (Faculty faculty in facultyList) {
                               // Check if the company name starts with the entered text substring
-                              if (company.name
+                              String name = faculty.fname + " " + faculty.lname;
+                              if (name
                                   .toLowerCase()
                                   .startsWith(text.toLowerCase())) {
                                 // If it does, add the company to the filtered list
-                                filteredCompanies.add(company);
+                                filteredFaculty.add(faculty);
                               }
                             }
                           }
@@ -167,7 +173,7 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                             width: 2.0,
                           ),
                         ),
-                        hintText: 'Member Directory',
+                        hintText: 'Faculty Directory',
                         // border: OutlineInputBorder(
                         //   borderRadius: BorderRadius.circular(10.0),
                         // ),
@@ -189,14 +195,8 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                 children: [
                   createButtonSorter('A-Z', sortAlphabetically,
                       colorFlag: false),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Sudents', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Alumni', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Industry', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Jobs', () => {}),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
+                  createButtonSorter('Admin', () => {}),
                 ],
               ),
             ),
@@ -205,25 +205,64 @@ class _MemberDirectoryState extends State<MemberDirectory> {
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount:
-                  _isTextEntered ? filteredCompanies.length : companies.length,
+                  _isTextEntered ? filteredFaculty.length : facultyList.length,
               itemBuilder: (context, index) {
-                final List<Company> displayList =
-                    _isTextEntered ? filteredCompanies : companies;
+                final List<Faculty> displayList =
+                    _isTextEntered ? filteredFaculty : facultyList;
                 return GestureDetector(
                   onTap: () {
-                    Company companyData = displayList[index];
+                    Faculty facultyData = displayList[index];
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return CompanyPopup(
-                          company: companyData,
-                          onClose: () =>
-                              Navigator.pop(context), // Close popup on tap
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Container(
+                            //padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                            height: 200, // Adjust the height as needed
+                            width: MediaQuery.of(context).size.width *
+                                0.8, // 80% of screen width
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2.0),
+                                  child: IconButton(
+                                    icon: Icon(Icons.arrow_back),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the popup
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                    color: Color(0xFFD5E3F4),
+                                    child: Column(children: [
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Popup Title',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Text(
+                                        'This is some informational text in the popup. It only takes up a little bit of the screen.',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ]))
+                              ],
+                            ),
+                          ),
                         );
                       },
                     );
                   },
-                  child: CompanyItem(
+                  child: FacultyItem(
                       displayList[index]), // Existing CompanyItem widget
                 );
               },

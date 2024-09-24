@@ -24,21 +24,33 @@ class CompanyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // Use Column to stack widgets vertically
-      children: [
-        ListTile(
-          leading: const Icon(Icons.business),
-          title: Text(company.name),
-          subtitle: Text(company.location),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF154733),
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 2,
+              offset: Offset(0, 2), // changes position of shadow
+            ),
+          ],
         ),
-        const Divider(
-          // Divider with default properties
-          height: 1.0,
-          thickness: 1.0,
-          color: Colors.grey, // Adjust color if needed
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.person, color: Colors.white),
+              title: Text(company.name, style: TextStyle(color: Colors.white)),
+              subtitle:
+                  Text(company.location, style: TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -71,20 +83,20 @@ class CompanyPopup extends StatelessWidget {
               // Use Stack within Column for content positioning
               children: [
                 // Transparent background to allow tapping outside to close (optional)
-                GestureDetector(
-                  onTap: onClose,
-                  child: Container(
-                    color: Colors.transparent,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: onClose,
+                //   child: Container(
+                //     color: calPolyGreen,
+                //     width: double.infinity,
+                //     height: double.infinity,
+                //   ),
+                // ),
                 // Center the popup content
                 Center(
                   child: Container(
                     // Container for popup content
                     decoration: const BoxDecoration(
-                      color: calPolyGold,
+                      color: calPolyGreen,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(25.0),
                         bottomRight: Radius.circular(25.0),
@@ -98,18 +110,14 @@ class CompanyPopup extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle, color: Colors.grey),
-                                child: IconButton(
-                                  icon: const Icon(Icons.arrow_back),
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.arrow_back,
+                                      color: Colors.white),
                                   onPressed: onClose,
                                 ),
-                              )
-                            ],
-                          ),
+                              ]),
                         ),
                         // Circle near the top of the page in the middle
                         Padding(
@@ -142,18 +150,36 @@ class CompanyPopup extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize:
                                       24.0, // Adjust the font size as needed
-                                  fontWeight:
-                                      FontWeight.bold, // Make the text bold
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white, // Make the text bold
                                 ),
                               ),
                               Text(
                                 company.location,
                                 style: const TextStyle(
-                                  fontSize:
-                                      18.0, // Adjust the font size as needed
+                                  fontSize: 18.0,
+                                  color: Colors.white,
                                 ),
                               ),
-                              // ... additional content
+                              const SizedBox(height: 10),
+                              GestureDetector(
+                                  child: Container(
+                                      width: 180,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: backGroundColor),
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.star,
+                                              color: Colors.yellow),
+                                          SizedBox(width: 8),
+                                          Text("Add To Favorites")
+                                        ],
+                                      )))
                             ],
                           ),
                         ),
@@ -173,67 +199,81 @@ class CompanyPopup extends StatelessWidget {
               child: ListView(
                 children: [
                   // First Section
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Center(
-                            child: Icon(
-                              Icons.person,
-                              size: 36, // Adjust the size of the icon as needed
-                              color:
-                                  Colors.black, // Add your desired icon color
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ), // Add space between icon and text
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                company.recruiterName,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 17, 17, 17),
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w600,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: calPolyGreen),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                const Center(
+                                  child: CircleAvatar(
+                                    radius: 24,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.person,
+                                      size:
+                                          36, // Adjust the size of the icon as needed
+                                      color: calPolyGreen,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                company.recruiterTitle,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500,
+                                const SizedBox(
+                                  width: 20,
+                                ), // Add space between icon and text
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      company.recruiterName,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      company.recruiterTitle,
+                                      style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 150, 150, 150),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.mail,
+                                            color: Colors.white),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          company.recruiterEmail,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      // Additional Text Row
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            company.recruiterEmail,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 100, 100, 100),
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w500,
+                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      // Divider between the first section and the rest
-                      const Divider(),
-                    ],
+                    ),
                   ),
+                  // Divider between the first section and the rest
+                  const Divider(),
                   // Second Section (About)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

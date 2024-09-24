@@ -132,7 +132,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           await FirebaseAuth.instance.signOut();
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => signIn()),
+            MaterialPageRoute(builder: (context) => const SignIn()),
           );
         },
         child: const Text('Sign Out', style: TextStyle(color: Colors.white)),

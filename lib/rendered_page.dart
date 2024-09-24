@@ -1,6 +1,8 @@
+import 'package:ccce_application/src/screens/faculty_directory.dart';
 import 'package:flutter/material.dart';
 import 'package:ccce_application/src/screens/profile_screen.dart';
 import 'package:ccce_application/src/screens/member_directory.dart';
+import 'package:ccce_application/src/screens/club_directory.dart';
 
 import 'package:ccce_application/src/screens/home_screen.dart';
 
@@ -21,8 +23,8 @@ class _MyRenderedPageState extends State<RenderedPage> {
   static final List<Widget> _pageList = <Widget>[
     const HomeScreen(),
     const MemberDirectory(),
-    Container(),
-    Container(),
+    const ClubDirectory(),
+    const FacultyDirectory(),
     Container(),
     const ProfileScreen(),
   ];
@@ -51,25 +53,24 @@ class _MyRenderedPageState extends State<RenderedPage> {
 
   @override
   Widget build(BuildContext context) {
-    String getTitleText() {
-      switch (_selectedIndex) {
-        case 0:
-          return "Home";
-        case 1:
-          return "Member Directory";
-        case 2:
-          return "Club Info";
-        case 3:
-          return "Academics";
-        case 4:
-          return "Resources";
-        case 5:
-          return "Profile";
-        default:
-          return "titletext";
-      }
-      return "Missing Index";
-    }
+    // String getTitleText() {
+    //   switch (_selectedIndex) {
+    //     case 0:
+    //       return "Home";
+    //     case 1:
+    //       return "Member Directory";
+    //     case 2:
+    //       return "Club Info";
+    //     case 3:
+    //       return "Academics";
+    //     case 4:
+    //       return "Resources";
+    //     case 5:
+    //       return "Profile";
+    //     default:
+    //       return "Missing Title Text";
+    //   }
+    // }
 
     Color getAppBarColor() {
       switch (_selectedIndex) {
@@ -128,8 +129,8 @@ class _MyRenderedPageState extends State<RenderedPage> {
                   ),
                   createListItem("Home", 0),
                   createListItem("Member Directory", 1),
-                  createListItem("Club Info", 2),
-                  createListItem("Academics", 3),
+                  createListItem("Club Directory", 2),
+                  createListItem("Faculty Directory", 3),
                   createListItem("Resources", 4),
                   createListItem("Profile", 5)
                 ],
