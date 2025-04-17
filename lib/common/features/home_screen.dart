@@ -1,4 +1,4 @@
-import 'package:ccce_application/src/collections/calevent.dart';
+import 'package:ccce_application/common/collections/calevent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';

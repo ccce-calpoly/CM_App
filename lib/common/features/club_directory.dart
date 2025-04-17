@@ -1,69 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:ccce_application/src/collections/company.dart';
+import 'package:ccce_application/common/collections/club.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MemberDirectory extends StatefulWidget {
-  const MemberDirectory({Key? key}) : super(key: key);
+class ClubDirectory extends StatefulWidget {
+  const ClubDirectory({Key? key}) : super(key: key);
 
-  final String title = "Directory";
+  final String title = "Club Directory";
   @override
-  State<MemberDirectory> createState() => _MemberDirectoryState();
+  State<ClubDirectory> createState() => _ClubDirectoryState();
 }
 
-class _MemberDirectoryState extends State<MemberDirectory> {
-  Future<List<Company>> fetchDataFromFirestore() async {
-    List<Company> companies = [];
+class _ClubDirectoryState extends State<ClubDirectory> {
+  Future<List<Club>> fetchDataFromFirestore() async {
+    List<Club> clubs = [];
 
     try {
       // Get a reference to the Firestore database
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       // Query the "companies" collection
-      QuerySnapshot querySnapshot =
-          await firestore.collection('companies').get();
+      QuerySnapshot querySnapshot = await firestore.collection('clubs').get();
 
       // Iterate through the documents in the query snapshot
       querySnapshot.docs.forEach((doc) {
         // Convert each document to a Map and add it to the list
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        Map<String, String> companyData = {};
+        Map<String, String> clubData = {};
         data.forEach((key, value) {
           // Convert each value to String and add it to companyData
-          companyData[key] = value.toString();
+          clubData[key] = value.toString();
         });
-        Company newComp = Company(
-            companyData['name'],
-            companyData['location'],
-            companyData['about'],
-            companyData['msg'],
-            companyData['recruiterName'],
-            companyData['recruiterTitle'],
-            companyData['recruiterEmail']);
-        companies.add(newComp);
+        Club newClub = Club(clubData['Name'], clubData['About'],
+            clubData['Email'], clubData['Acronym'], clubData['Instagram']);
+        clubs.add(newClub);
       });
     } catch (e) {
       // Handle any errors that occur
       print('Error fetching data: $e');
     }
 
-    return companies;
+    return clubs;
   }
 
   final TextEditingController _searchController = TextEditingController();
   bool _isTextEntered = false;
 
-  static List<Company> companies = [];
-  static List<Company> filteredCompanies = [];
+  static List<Club> clubs = [];
+  static List<Club> filteredClubs = [];
   static const tanColor = Color(0xFFcecca0);
   static const lighterTanColor = Color(0xFFfffded);
   @override
   void initState() {
     super.initState();
 
-    fetchDataFromFirestore().then((companiesData) {
+    fetchDataFromFirestore().then((clubData) {
       setState(() {
-        companies = companiesData;
-        companies.sort();
+        clubs = clubData;
+        clubs.sort();
       });
     });
 
@@ -75,7 +68,7 @@ class _MemberDirectoryState extends State<MemberDirectory> {
   Widget build(BuildContext context) {
     void sortAlphabetically() {
       setState(() {
-        companies = companies.reversed.toList();
+        clubs = clubs.reversed.toList();
       });
     }
 
@@ -141,17 +134,17 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                         setState(() {
                           _isTextEntered = text.isNotEmpty;
                           // Clear the previously filtered companies
-                          filteredCompanies.clear();
+                          filteredClubs.clear();
 
                           // Iterate through the original list of companies if text is entered
                           if (_isTextEntered) {
-                            for (Company company in companies) {
+                            for (Club club in clubs) {
                               // Check if the company name starts with the entered text substring
-                              if (company.name
+                              if (club.name
                                   .toLowerCase()
                                   .startsWith(text.toLowerCase())) {
                                 // If it does, add the company to the filtered list
-                                filteredCompanies.add(company);
+                                filteredClubs.add(club);
                               }
                             }
                           }
@@ -162,12 +155,12 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                         // contentPadding: EdgeInsets.all(2.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.black,
                             width: 2.0,
                           ),
                         ),
-                        hintText: 'Member Directory',
+                        hintText: 'Club Directory',
                         // border: OutlineInputBorder(
                         //   borderRadius: BorderRadius.circular(10.0),
                         // ),
@@ -189,14 +182,14 @@ class _MemberDirectoryState extends State<MemberDirectory> {
                 children: [
                   createButtonSorter('A-Z', sortAlphabetically,
                       colorFlag: false),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Sudents', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Alumni', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Industry', () => {}),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
-                  createButtonSorter('Jobs', () => {}),
+                  // Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
+                  // createButtonSorter('Sudents', () => {}),
+                  // Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
+                  // createButtonSorter('Alumni', () => {}),
+                  // Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
+                  // createButtonSorter('Industry', () => {}),
+                  // Padding(padding: EdgeInsets.symmetric(horizontal: 6)),
+                  // createButtonSorter('Jobs', () => {}),
                 ],
               ),
             ),
@@ -204,26 +197,25 @@ class _MemberDirectoryState extends State<MemberDirectory> {
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount:
-                  _isTextEntered ? filteredCompanies.length : companies.length,
+              itemCount: _isTextEntered ? filteredClubs.length : clubs.length,
               itemBuilder: (context, index) {
-                final List<Company> displayList =
-                    _isTextEntered ? filteredCompanies : companies;
+                final List<Club> displayList =
+                    _isTextEntered ? filteredClubs : clubs;
                 return GestureDetector(
                   onTap: () {
-                    Company companyData = displayList[index];
+                    Club clubData = displayList[index];
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return CompanyPopup(
-                          company: companyData,
+                        return ClubPopUp(
+                          club: clubData,
                           onClose: () =>
                               Navigator.pop(context), // Close popup on tap
                         );
                       },
                     );
                   },
-                  child: CompanyItem(
+                  child: ClubItem(
                       displayList[index]), // Existing CompanyItem widget
                 );
               },

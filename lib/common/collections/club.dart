@@ -253,7 +253,7 @@ class ClubPopUp extends StatelessWidget {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
+                      Text(
                         "Upcoming Events",
                         style: TextStyle(
                           color: Color.fromARGB(255, 102, 102, 102),

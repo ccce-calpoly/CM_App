@@ -1,5 +1,5 @@
 import 'package:ccce_application/rendered_page.dart';
-import 'package:ccce_application/src/screens/welcome_page.dart';
+import 'package:ccce_application/common/features/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -17,7 +17,6 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
 
   runApp(MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const MaterialApp(
-              home: WelcomePage(),
+              home: OnboardingScreen(),
               //home: AuthGate(),
             );
           }

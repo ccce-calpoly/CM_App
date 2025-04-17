@@ -1,10 +1,10 @@
-import 'package:ccce_application/src/screens/faculty_directory.dart';
+import 'package:ccce_application/common/features/faculty_directory.dart';
 import 'package:flutter/material.dart';
-import 'package:ccce_application/src/screens/profile_screen.dart';
-import 'package:ccce_application/src/screens/member_directory.dart';
-import 'package:ccce_application/src/screens/club_directory.dart';
+import 'package:ccce_application/common/features/profile_screen.dart';
+import 'package:ccce_application/common/features/member_directory.dart';
+import 'package:ccce_application/common/features/club_directory.dart';
 
-import 'package:ccce_application/src/screens/home_screen.dart';
+import 'package:ccce_application/common/features/home_screen.dart';
 
 class RenderedPage extends StatefulWidget {
   const RenderedPage({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class RenderedPage extends StatefulWidget {
 
 class _MyRenderedPageState extends State<RenderedPage> {
   static const standardGreen = Color(0xFF164734);
-  static const tanColor = Color(0xFFcecca0);
+  static const tanColor = Color.fromARGB(255, 69, 68, 36);
   static const lighterTanColor = Color(0xFFfffded);
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
@@ -75,7 +75,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
     Color getAppBarColor() {
       switch (_selectedIndex) {
         case 0:
-          return tanColor;
+          return Colors.amber;
         default:
           return lighterTanColor;
       }

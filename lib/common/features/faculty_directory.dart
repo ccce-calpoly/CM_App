@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ccce_application/src/collections/faculty.dart';
+import 'package:ccce_application/common/collections/faculty.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FacultyDirectory extends StatefulWidget {
