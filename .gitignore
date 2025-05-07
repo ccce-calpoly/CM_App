@@ -117,3 +117,6 @@ coverage/
 
 # Java crash logs
 java_pid*
+
+package.json
+package-lock.json

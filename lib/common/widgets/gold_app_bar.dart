@@ -1,3 +1,4 @@
+import 'package:ccce_application/common/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class GoldAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -33,7 +34,7 @@ class GoldAppBar extends StatelessWidget implements PreferredSizeWidget {
             end: Alignment.bottomRight,
             colors: [
               Color(0xFFD8B45B), // Left color
-              Color(0xFFC4922C), // Start of right gradient
+              AppColors.darkGold, // Start of right gradient
               Color(0xFFD8B45B), // End of right gradient (matches left)
             ],
             stops: [

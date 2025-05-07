@@ -10,9 +10,6 @@ class WelcomePage1 extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final smallerSide = screenWidth < screenHeight ? screenWidth : screenHeight;
 
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.transparent,
-    // ));
     return Scaffold(
       backgroundColor: AppColors.calPolyGreen,
       body: SafeArea(
@@ -48,10 +45,12 @@ class WelcomePage1 extends StatelessWidget {
                           fontFamily: 'SansSerifPro'),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'CPCM',
-                    style: TextStyle(fontSize: 36, color: Colors.white),
+                  Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.015),
+                    child: const Text(
+                      'CPCM',
+                      style: TextStyle(fontSize: 36, color: Colors.white),
+                    ),
                   ),
                 ],
               ),
