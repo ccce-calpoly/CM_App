@@ -23,7 +23,7 @@ class GoldAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: true,
+      automaticallyImplyLeading: false,
       title: title != null ? Text(title!, style: titleTextStyle) : null,
       leading: leading,
       actions: actions,
@@ -33,9 +33,9 @@ class GoldAppBar extends StatelessWidget implements PreferredSizeWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8B45B), // Left color
+              AppColors.lightGold, // Left color
               AppColors.darkGold, // Start of right gradient
-              Color(0xFFD8B45B), // End of right gradient (matches left)
+              AppColors.lightGold, // End of right gradient (matches left)
             ],
             stops: [
               0.5, // Left side ends at 50%
