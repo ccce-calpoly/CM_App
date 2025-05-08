@@ -37,7 +37,7 @@ class WelcomePage1 extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: screenHeight * 0.05),
                     child: const Text(
-                      'Welcome to',
+                      'Welcome',
                       style: TextStyle(
                           color: AppColors.tanText,
                           fontSize: 48,
@@ -48,8 +48,12 @@ class WelcomePage1 extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: screenHeight * 0.015),
                     child: const Text(
-                      'CPCM',
-                      style: TextStyle(fontSize: 36, color: Colors.white),
+                      'Cal Poly Construction\nManagement',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
                     ),
                   ),
                 ],
