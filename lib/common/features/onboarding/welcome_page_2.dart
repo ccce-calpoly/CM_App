@@ -38,7 +38,7 @@ class WelcomePage2 extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: screenHeight * 0.05),
                     child: const Text(
-                      'Welcome to',
+                      'Welcome',
                       style: TextStyle(
                           color: AppColors.tanText,
                           fontSize: 48,

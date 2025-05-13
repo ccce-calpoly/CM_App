@@ -95,7 +95,7 @@ class TosScreen extends StatelessWidget {
                                 ),
                               ),
                               child: const Text(
-                                'Agree',
+                                'I Agree',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
