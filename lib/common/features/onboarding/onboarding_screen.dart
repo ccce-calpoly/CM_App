@@ -28,7 +28,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GoldAppBar(),
       body: Stack(
         children: [
           PageView(

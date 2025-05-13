@@ -1,11 +1,15 @@
 import 'package:ccce_application/common/collections/calevent.dart';
+import 'package:ccce_application/common/theme/colors.dart';
+import 'package:ccce_application/common/widgets/cal_poly_menu_bar.dart';
+import 'package:ccce_application/common/widgets/debug_outline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const HomeScreen({super.key, required this.scaffoldKey});
   @override
   CalendarScreenState createState() => CalendarScreenState();
 }
@@ -490,54 +494,83 @@ class CalendarScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     Widget calWidget = buildCalendar();
     Widget eventDisplayWidget = buildEventDisplay();
     Widget announcementDisplayWidget = buildAnnouncementDisplay();
 
     return Scaffold(
-      body: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(left: 36.0, bottom: 4.0),
-                child: Text(_name.isNotEmpty ? "Hi!" : "Hi! $_name",
-                    style: const TextStyle(
-                        fontFamily: "SansSerifProSemiBold",
-                        fontSize: 36,
-                        color: Colors.white)))
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 36.0, right: 36.0, bottom: 24.0),
-          child: Row(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+        child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+          CalPolyMenuBar(scaffoldKey: widget.scaffoldKey),
+          SizedBox(height: screenHeight * 0.04),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 0),
+                child: Text(
+                  _screenBool ? "Notifications" : "Calendar",
+                  style: const TextStyle(
+                      color: AppColors.tanText,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 26),
+                ),
+              ),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.calendar_month,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  Switch(
+                    inactiveThumbColor: Colors.white,
+                    inactiveTrackColor: Colors.grey,
+                    activeTrackColor: Colors.grey,
+                    value: _screenBool,
+                    onChanged: (value) {
+                      setState(() {
+                        _screenBool = value;
+                      });
+                    },
+                  ),
+                  const Icon(
+                    Icons.circle_notifications,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ],
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: Text(_name.isNotEmpty ? "Hi!" : "Hi! $_name",
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white))),
               Text(dateFormatter(_focusedMonth, _focusedYear),
                   style: const TextStyle(
                     fontFamily: "SansSerifProSemiBold",
                     fontSize: 20,
                     color: Colors.white,
                   )),
-              Switch(
-                thumbIcon: thumbIcon,
-                activeTrackColor: calPolyGreen,
-                inactiveThumbColor: const Color(0xFFcecca0),
-                value: _screenBool,
-                onChanged: (value) {
-                  setState(() {
-                    _screenBool = value;
-                  });
-                },
-              )
             ],
           ),
-        ),
-        _screenBool ? announcementDisplayWidget : calWidget,
-        _screenBool ? Container() : const SizedBox(height: 20),
-        _screenBool ? Container() : eventDisplayWidget
-      ]),
-      backgroundColor: const Color(0xffcecca0),
+          SizedBox(height: screenHeight * 0.04),
+          _screenBool ? announcementDisplayWidget : calWidget,
+          _screenBool ? Container() : const SizedBox(height: 20),
+          _screenBool ? Container() : eventDisplayWidget
+        ]),
+      ),
+      backgroundColor: AppColors.calPolyGreen,
     );
   }
 }
