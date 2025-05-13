@@ -1,6 +1,8 @@
 import 'package:ccce_application/common/widgets/gold_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ccce_application/common/theme/colors.dart';
+import 'package:ccce_application/common/features/sign_in.dart';
+import 'package:ccce_application/common/features/sign_up.dart';
 
 class WelcomeSignIn extends StatelessWidget {
   const WelcomeSignIn({Key? key}) : super(key: key);
@@ -60,7 +62,11 @@ class WelcomeSignIn extends StatelessWidget {
               SizedBox(height: screenHeight * 0.03),
               ElevatedButton(
                 onPressed: () {
-                  // Navigate to sign-in logic here
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (Route<dynamic> route) => false,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.lightGold,
@@ -85,7 +91,10 @@ class WelcomeSignIn extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   // Handle the tap event (e.g., navigate to sign-up page)
-                  print("Text tapped!");
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
                 },
                 child: const Text(
                   "I don't have an account yet...",

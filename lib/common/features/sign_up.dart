@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/rendered_page.dart';
 import 'package:ccce_application/common/features/sign_in.dart';
 import 'package:ccce_application/common/widgets/gold_app_bar.dart';
+import 'package:ccce_application/common/theme/colors.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _SignUpState extends State<SignUp> {
 
     return Scaffold(
       appBar: const GoldAppBar(),
-      backgroundColor: calPolyGold,
+      backgroundColor: AppColors.calPolyGreen,
       body: SingleChildScrollView(
         child: Center(
           child: Stack(
@@ -39,141 +40,158 @@ class _SignUpState extends State<SignUp> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: screenHeight * 0.05),
-                  Icon(
-                    Icons.waving_hand_outlined,
-                    size: screenHeight * 0.12,
-                    color: Colors.white,
+                  SizedBox(height: screenHeight * 0.1),
+
+                  // 👷 Hardhat logo image
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: screenHeight * 0.02,
+                      bottom: screenHeight * 0.03,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/hardhat.png',
+                      height: screenHeight * 0.12,
+                    ),
                   ),
-                  SizedBox(height: screenHeight * 0.02),
+
                   Text(
-                    'CPCM',
+                    'Cal Poly Construction\nManagement',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: screenHeight * 0.045,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: AppColors.tanText,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'SansSerifPro',
                     ),
                   ),
                   SizedBox(
                     height: screenHeight * 0.025,
                     child: Text(
                       errorMsg,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.red,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.015),
 
                   // Email Field
                   Container(
                     width: screenWidth * 0.75,
-                    height: 50,
+                    height: screenHeight * 0.065,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: lighterTanColor,
+                      color: Colors.white,
                     ),
                     child: TextField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight:
+                            FontWeight.bold, // This makes the typed text bold
+                      ),
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'Username',
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(10),
-                        labelStyle: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: screenHeight * 0.015,
+                          horizontal: screenWidth * 0.025,
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenHeight * 0.020),
 
                   // Password Field
                   Container(
                     width: screenWidth * 0.75,
-                    height: 50,
+                    height: screenHeight * 0.065,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: lighterTanColor,
+                      color: Colors.white,
                     ),
                     child: TextField(
                       controller: _passwordController,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight:
+                            FontWeight.bold, // This makes the typed text bold
+                      ),
                       obscureText: true,
                       decoration: const InputDecoration(
-                        labelText: 'Password',
+                        hintText: 'Password',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
-                        labelStyle: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500),
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenHeight * 0.020),
 
                   // Confirm Password Field
                   Container(
                     width: screenWidth * 0.75,
-                    height: 50,
+                    height: screenHeight * 0.065,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: lighterTanColor,
+                      color: Colors.white,
                     ),
                     child: TextField(
                       controller: _confirmPasswordController,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight:
+                            FontWeight.bold, // This makes the typed text bold
+                      ),
                       obscureText: true,
                       decoration: const InputDecoration(
-                        labelText: 'Confirm Password',
+                        hintText: 'Confirm Password',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
-                        labelStyle: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500),
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenHeight * 0.030),
 
                   // Sign Up Button
                   SizedBox(
                     width: screenWidth * 0.75,
-                    height: 50,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 0,
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                    height: screenHeight * 0.065,
+                    child: ElevatedButton(
+                      onPressed: _signUpFunc,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.lightGold,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero),
                       ),
-                      child: ElevatedButton(
-                        onPressed: _signUpFunc,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: lighterTanColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.020),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -184,9 +202,10 @@ class _SignUpState extends State<SignUp> {
                     child: const Text(
                       "Already have an account? Sign In",
                       style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
+                          color: AppColors.tanText,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.tanText),
                     ),
                   ),
                 ],
