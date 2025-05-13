@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ccce_application/rendered_page.dart';
 import 'package:ccce_application/common/features/sign_in.dart';
+import 'package:ccce_application/common/widgets/gold_app_bar.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -24,7 +25,11 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      appBar: const GoldAppBar(),
       backgroundColor: calPolyGold,
       body: SingleChildScrollView(
         child: Center(
@@ -34,42 +39,37 @@ class _SignUpState extends State<SignUp> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                  ),
-                  // Your icon and text here
+                  SizedBox(height: screenHeight * 0.05),
                   Icon(
                     Icons.waving_hand_outlined,
-                    size: 100,
+                    size: screenHeight * 0.12,
                     color: Colors.white,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: screenHeight * 0.02),
                   Text(
                     'CPCM',
                     style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      errorMsg,
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+                      fontSize: screenHeight * 0.045,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: screenHeight * 0.025,
+                    child: Text(
+                      errorMsg,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
+                  SizedBox(height: screenHeight * 0.015),
 
-                  // Email TextField
+                  // Email Field
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: screenWidth * 0.75,
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     child: TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Email',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
@@ -90,9 +90,9 @@ class _SignUpState extends State<SignUp> {
                   ),
                   SizedBox(height: 20),
 
-                  // Password TextField
+                  // Password Field
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: screenWidth * 0.75,
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
@@ -114,9 +114,9 @@ class _SignUpState extends State<SignUp> {
                   ),
                   SizedBox(height: 20),
 
-                  // Confirm Password TextField
+                  // Confirm Password Field
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: screenWidth * 0.75,
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                     child: TextField(
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Confirm Password',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
@@ -140,7 +140,7 @@ class _SignUpState extends State<SignUp> {
 
                   // Sign Up Button
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.75,
+                    width: screenWidth * 0.75,
                     height: 50,
                     child: Container(
                       decoration: BoxDecoration(
@@ -150,31 +150,30 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.black.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 8,
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
                       child: ElevatedButton(
                         onPressed: _signUpFunc,
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: lighterTanColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -182,7 +181,7 @@ class _SignUpState extends State<SignUp> {
                         MaterialPageRoute(builder: (context) => const SignIn()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "Already have an account? Sign In",
                       style: TextStyle(
                         color: Colors.blue,

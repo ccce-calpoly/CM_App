@@ -2,6 +2,8 @@ import 'package:ccce_application/common/widgets/gold_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ccce_application/common/theme/colors.dart';
 import 'package:flutter/services.dart'; // Import for rootBundle
+import 'package:ccce_application/common/features/sign_up.dart';
+import 'package:ccce_application/common/features/welcome_sign_in.dart';
 
 class TosScreen extends StatelessWidget {
   const TosScreen({Key? key}) : super(key: key);
@@ -83,7 +85,12 @@ class TosScreen extends StatelessWidget {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomeSignIn()),
+                                  (Route<dynamic> route) => false,
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
