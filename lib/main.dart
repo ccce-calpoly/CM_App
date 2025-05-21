@@ -1,3 +1,4 @@
+import 'package:ccce_application/common/widgets/gold_app_bar.dart';
 import 'package:ccce_application/rendered_page.dart';
 import 'package:ccce_application/common/features/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,13 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const MaterialApp(
-              home: OnboardingScreen(),
+              home: Scaffold(appBar: GoldAppBar(), body: RenderedPage()),
               //home: AuthGate(),
             );
           }
 
-          return const MaterialApp(home: RenderedPage());
+          return const MaterialApp(
+              home: Scaffold(appBar: GoldAppBar(), body: RenderedPage()));
         });
   }
 }

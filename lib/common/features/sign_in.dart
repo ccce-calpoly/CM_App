@@ -252,6 +252,7 @@ class _SignInState extends State<SignIn> {
     try {
       String email = _emailController.text.trim();
       String password = _passwordController.text.trim();
+
       // Implement your custom sign-in logic here
       // For example:
       await FirebaseAuth.instance

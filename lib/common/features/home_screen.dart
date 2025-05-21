@@ -219,7 +219,7 @@ class CalendarScreenState extends State<HomeScreen> {
     return eventContainers;
   }
 
-  Widget buildCalendar() {
+  Widget buildCalendar(context) {
     return TableCalendar<CalEvent>(
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
@@ -234,7 +234,6 @@ class CalendarScreenState extends State<HomeScreen> {
         defaultTextStyle: TextStyle(color: Colors.white),
         weekendTextStyle: TextStyle(color: Colors.white),
         markerSize: 6,
-        tablePadding: EdgeInsets.symmetric(horizontal: 24),
         markerDecoration:
             BoxDecoration(color: Color(0xFFE4E2D4), shape: BoxShape.circle),
         selectedDecoration:
@@ -328,7 +327,8 @@ class CalendarScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget buildEventList() {
+  List<Widget> buildEventList(context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     var eventContainers = _getDayEvents(_focusedDay);
 
     eventContainers = eventContainers.isEmpty
@@ -361,50 +361,39 @@ class CalendarScreenState extends State<HomeScreen> {
                       ),
                     ),
                   )),
-              Container(child: const SizedBox(height: 30.0)),
+              const SizedBox(height: 30.0),
             ] +
             _getNextEvents(_focusedDay)
         : eventContainers;
 
     var fullList = <Widget>[
-          const SizedBox(height: 24),
-          const Padding(
-            padding: EdgeInsets.only(left: 36, top: 12),
-            child: Text("My Schedule",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "SansSerifProSemiBold",
-                    fontSize: 36)),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 36, bottom: 12),
-              child: Text(
-                  fullDateFormatter(
-                      _focusedMonth, _focusedYear, _focusedDay.day),
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: "SansSerifPro",
-                      fontSize: 20)))
-        ] +
-        eventContainers.toList();
-    return ListView(children: fullList);
+      SizedBox(height: screenHeight * 0.02),
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(
+            fullDateFormatter(_focusedMonth, _focusedYear, _focusedDay.day),
+            style: const TextStyle(
+                color: AppColors.tanText,
+                fontFamily: "SansSerifPro",
+                fontSize: 20)),
+      )
+    ];
+    //eventContainers.toList();
+    return fullList;
   }
 
-  Widget buildEventDisplay() {
-    return Expanded(
-      child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(40.0),
-            // Adjust border radius
-          ),
-          child: buildEventList()),
-    );
-    //child: Column(
-    //  children: <Widget>[const Text("HI"), buildEventList()])));
+  Widget buildEventDisplay(context) {
+    return Row(children: [
+      Expanded(
+        child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: buildEventList(context))),
+      ),
+    ]);
   }
 
-  Widget buildAnnouncementList() {
+  Widget buildAnnouncementList(context) {
     var eventContainers = _getDayEvents(_focusedDay);
 
     eventContainers = eventContainers.isEmpty
@@ -424,9 +413,8 @@ class CalendarScreenState extends State<HomeScreen> {
                               style: TextStyle(
                                   fontFamily: "SansSerifProItalic",
                                   fontSize: 16))))),
-              Container(
-                  child: const SizedBox(
-                      height: 30.0)), // Optional spacing between containers
+              const SizedBox(
+                  height: 30.0), // Optional spacing between containers
               Container(
                   margin: const EdgeInsets.symmetric(horizontal: 25),
                   decoration: const BoxDecoration(
@@ -465,7 +453,7 @@ class CalendarScreenState extends State<HomeScreen> {
     return ListView(children: fullList);
   }
 
-  Widget buildAnnouncementDisplay() {
+  Widget buildAnnouncementDisplay(context) {
     return Expanded(
       child: Container(
           decoration: BoxDecoration(
@@ -473,7 +461,7 @@ class CalendarScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(40.0),
             // Adjust border radius
           ),
-          child: buildAnnouncementList()),
+          child: buildAnnouncementList(context)),
     );
     //child: Column(
     //  children: <Widget>[const Text("HI"), buildEventList()])));
@@ -496,9 +484,9 @@ class CalendarScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    Widget calWidget = buildCalendar();
-    Widget eventDisplayWidget = buildEventDisplay();
-    Widget announcementDisplayWidget = buildAnnouncementDisplay();
+    Widget calWidget = buildCalendar(context);
+    Widget eventDisplayWidget = buildEventDisplay(context);
+    Widget announcementDisplayWidget = buildAnnouncementDisplay(context);
 
     return Scaffold(
       body: Padding(
@@ -510,7 +498,7 @@ class CalendarScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 0),
+                padding: const EdgeInsets.only(left: 16),
                 child: Text(
                   _screenBool ? "Notifications" : "Calendar",
                   style: const TextStyle(
@@ -519,30 +507,33 @@ class CalendarScreenState extends State<HomeScreen> {
                       fontSize: 26),
                 ),
               ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.calendar_month,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                  Switch(
-                    inactiveThumbColor: Colors.white,
-                    inactiveTrackColor: Colors.grey,
-                    activeTrackColor: Colors.grey,
-                    value: _screenBool,
-                    onChanged: (value) {
-                      setState(() {
-                        _screenBool = value;
-                      });
-                    },
-                  ),
-                  const Icon(
-                    Icons.circle_notifications,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    Switch(
+                      inactiveThumbColor: Colors.white,
+                      inactiveTrackColor: Colors.grey,
+                      activeTrackColor: Colors.grey,
+                      value: _screenBool,
+                      onChanged: (value) {
+                        setState(() {
+                          _screenBool = value;
+                        });
+                      },
+                    ),
+                    const Icon(
+                      Icons.circle_notifications,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -550,23 +541,25 @@ class CalendarScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                  padding: const EdgeInsets.only(left: 0.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   child: Text(_name.isNotEmpty ? "Hi!" : "Hi! $_name",
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w300,
                           color: Colors.white))),
-              Text(dateFormatter(_focusedMonth, _focusedYear),
-                  style: const TextStyle(
-                    fontFamily: "SansSerifProSemiBold",
-                    fontSize: 20,
-                    color: Colors.white,
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Text(dateFormatter(_focusedMonth, _focusedYear),
+                    style: const TextStyle(
+                      fontFamily: "SansSerifProSemiBold",
+                      fontSize: 20,
+                      color: AppColors.tanText,
+                    )),
+              ),
             ],
           ),
           SizedBox(height: screenHeight * 0.04),
           _screenBool ? announcementDisplayWidget : calWidget,
-          _screenBool ? Container() : const SizedBox(height: 20),
           _screenBool ? Container() : eventDisplayWidget
         ]),
       ),
