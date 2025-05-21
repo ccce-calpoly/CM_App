@@ -38,6 +38,7 @@ linked_*.ds
 unlinked.ds
 unlinked_spec.ds
 
+
 # iOS/XCode related
 ios/*
 **/ios/**/*.mode1v3
@@ -120,3 +121,4 @@ java_pid*
 
 package.json
 package-lock.json
+pubspec.lock
