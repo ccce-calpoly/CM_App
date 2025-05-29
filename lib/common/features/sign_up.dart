@@ -231,28 +231,28 @@ class _SignUpState extends State<SignUp> {
         });
         return;
       }
-
+      print('hit0');
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-
+      print('hit1');
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       String? userID = userCredential.user?.uid;
-
+      print('hit2');
       if (userID == null) {
         setState(() {
           errorMsg = "Failed to create user.  Please try again.";
         });
         return;
       }
-
+      print('hit3');
       // 3. Get FCM Token and add to user document in Firestore
       String? fcmToken = await FirebaseMessaging.instance.getToken();
       print('FCM Token on signup: $fcmToken'); // For debugging
-
+      print('hit4');
       // Prepare user data map
       Map<String, dynamic> userData = {
         'email': email,
@@ -261,7 +261,7 @@ class _SignUpState extends State<SignUp> {
         'schoolYear': "",
         'company': "",
       };
-
+      print('hit5');
       // Add FCM token if available
       if (fcmToken != null) {
         userData['fcmToken'] = fcmToken;
