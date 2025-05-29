@@ -285,7 +285,8 @@ class _SignUpState extends State<SignUp> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const RenderedPage(),
+            builder: (context) => const MaterialApp(
+                home: Scaffold(appBar: GoldAppBar(), body: RenderedPage())),
           ),
         );
       }
