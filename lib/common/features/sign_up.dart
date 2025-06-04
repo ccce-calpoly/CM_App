@@ -24,6 +24,9 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      errorMsg = "";
+    });
   }
 
   @override

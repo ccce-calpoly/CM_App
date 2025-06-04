@@ -6,6 +6,7 @@ import 'package:ccce_application/common/features/member_directory.dart';
 import 'package:ccce_application/common/features/club_directory.dart';
 import 'package:ccce_application/common/features/home_screen.dart';
 import 'package:ccce_application/common/widgets/debug_outline.dart';
+import 'package:ccce_application/common/features/admin_notification.dart';
 
 class RenderedPage extends StatefulWidget {
   const RenderedPage({Key? key}) : super(key: key);
@@ -34,6 +35,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
       const FacultyDirectory(),
       Container(),
       const ProfileScreen(),
+      const AdminNotificationPage(),
     ];
   }
 
@@ -122,6 +124,7 @@ class _MyRenderedPageState extends State<RenderedPage> {
                   createListItem("Faculty Directory", 3),
                   createListItem("Resources", 4),
                   createListItem("Profile", 5),
+                  createListItem("Admin Notification", 6),
                 ],
               ),
             ),

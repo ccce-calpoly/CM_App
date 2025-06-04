@@ -19,6 +19,8 @@ Future<HashMap<DateTime, List<CalEvent>>> fetchEvents() async {
   final snapshot = await FirebaseFirestore.instance.collection('events').get();
   HashMap<DateTime, List<CalEvent>> events = HashMap();
 
+  print("Fetching events from Firestore...");
+  
   for (final doc in snapshot.docs) {
     final event = CalEvent.fromSnapshot(doc);
     var start = event.startTime;
