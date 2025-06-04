@@ -94,7 +94,7 @@ class _SignInState extends State<SignIn> {
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         isDense: true,
-                        hintText: 'Username',
+                        hintText: 'Email',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
                           vertical: screenHeight * 0.015,
@@ -329,7 +329,7 @@ class _SignInState extends State<SignIn> {
         if (e.code == "wrong-password" ||
             e.code == "invalid-credential" ||
             e.code == "INVALID_LOGIN_CREDENTIALS") {
-          tempErrorMsg = "Invalid username or password.";
+          tempErrorMsg = "Invalid email or password.";
         } else if (e.code == "invalid-email") {
           tempErrorMsg = "The email address is badly formatted.";
         } else if (e.code == "user-not-found") {

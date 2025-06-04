@@ -96,7 +96,7 @@ class _SignUpState extends State<SignUp> {
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         isDense: true,
-                        hintText: 'Username',
+                        hintText: 'Email',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
                           vertical: screenHeight * 0.015,
@@ -260,6 +260,8 @@ class _SignUpState extends State<SignUp> {
         'lastName': "",
         'schoolYear': "",
         'company': "",
+        'role': "",
+        'admin': false
       };
       print('hit5');
       // Add FCM token if available
