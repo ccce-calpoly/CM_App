@@ -130,9 +130,10 @@ class ProfileScreenState extends State<ProfileScreen> {
         style: ElevatedButton.styleFrom(backgroundColor: calPolyGreen),
         onPressed: () async {
           await FirebaseAuth.instance.signOut();
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const SignIn()),
+            (route) => false,
           );
         },
         child: const Text('Sign Out', style: TextStyle(color: Colors.white)),
